@@ -16,30 +16,9 @@
 
 #include "data_structures/array_list.h"
 #include "data_structures/common.h"
+#include "../test_macros.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) static void test_##name(void)
-#define RUN_TEST(name) do { \
-    printf("  - " #name "... "); \
-    fflush(stdout); \
-    test_##name(); \
-    printf("✓\n"); \
-} while(0)
-
-#define ASSERT_TRUE(expr) assert(expr)
-#define ASSERT_FALSE(expr) assert(!(expr))
-#define ASSERT_EQ(a, b) assert((a) == (b))
-#define ASSERT_NE(a, b) assert((a) != (b))
-#define ASSERT_NULL(ptr) assert((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) assert((ptr) != NULL)
 
 // ============================================================================
 // ESTRUTURAS AUXILIARES
@@ -423,9 +402,9 @@ TEST(clone_list) {
 TEST(arraylist_with_strings) {
     ArrayList *list = arraylist_create(sizeof(char*), 5, destroy_string);
 
-    char *str1 = copy_string_fn(&(char*){"Alice"});
-    char *str2 = copy_string_fn(&(char*){"Bob"});
-    char *str3 = copy_string_fn(&(char*){"Charlie"});
+    char *str1 = copy_string(&(char*){"Alice"});
+    char *str2 = copy_string(&(char*){"Bob"});
+    char *str3 = copy_string(&(char*){"Charlie"});
 
     arraylist_push_back(list, &str1);
     arraylist_push_back(list, &str2);

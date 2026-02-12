@@ -500,6 +500,10 @@ DataStructureError list_remove_at(LinkedList *list, size_t index, void *output) 
         return DS_ERROR_INVALID_INDEX;
     }
 
+    if (output != NULL) {
+        memcpy(output, node->data, list->element_size);
+    }
+
     return list_remove_node(list, node);
 }
 

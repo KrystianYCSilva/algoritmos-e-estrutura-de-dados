@@ -10,37 +10,9 @@
 
 #include "data_structures/queue.h"
 #include "data_structures/common.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../test_macros.h"
+
 #include <string.h>
-#include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) \
-    void test_##name(); \
-    printf("  %-50s", #name); \
-    test_##name(); \
-    printf("[✓ PASS]\n"); \
-    void test_##name()
-
-#define ASSERT(condition) \
-    do { \
-        if (!(condition)) { \
-            printf("\n    ✗ Assertion failed: %s\n", #condition); \
-            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
-            exit(1); \
-        } \
-    } while(0)
-
-#define ASSERT_EQ(a, b) ASSERT((a) == (b))
-#define ASSERT_NE(a, b) ASSERT((a) != (b))
-#define ASSERT_TRUE(cond) ASSERT(cond)
-#define ASSERT_FALSE(cond) ASSERT(!(cond))
-#define ASSERT_NULL(ptr) ASSERT((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) ASSERT((ptr) != NULL)
 
 // ============================================================================
 // TESTES PARA QUEUE_ARRAY
@@ -464,41 +436,40 @@ int main(void) {
     printf("========================================\n\n");
 
     printf("QUEUE_ARRAY (Circular Buffer):\n");
-    test_queue_array_create_destroy();
-    test_queue_array_enqueue_dequeue_single();
-    test_queue_array_enqueue_multiple();
-    test_queue_array_circular_buffer();
-    test_queue_array_resize();
-    test_queue_array_front();
-    test_queue_array_clear();
-    test_queue_array_empty_operations();
-    test_queue_array_stress_test();
+    RUN_TEST(queue_array_create_destroy);
+    RUN_TEST(queue_array_enqueue_dequeue_single);
+    RUN_TEST(queue_array_enqueue_multiple);
+    RUN_TEST(queue_array_circular_buffer);
+    RUN_TEST(queue_array_resize);
+    RUN_TEST(queue_array_front);
+    RUN_TEST(queue_array_clear);
+    RUN_TEST(queue_array_empty_operations);
+    RUN_TEST(queue_array_stress_test);
 
     printf("\nQUEUE_LINKED:\n");
-    test_queue_linked_create_destroy();
-    test_queue_linked_enqueue_dequeue_single();
-    test_queue_linked_enqueue_multiple();
-    test_queue_linked_front();
-    test_queue_linked_clear();
-    test_queue_linked_unlimited_size();
+    RUN_TEST(queue_linked_create_destroy);
+    RUN_TEST(queue_linked_enqueue_dequeue_single);
+    RUN_TEST(queue_linked_enqueue_multiple);
+    RUN_TEST(queue_linked_front);
+    RUN_TEST(queue_linked_clear);
+    RUN_TEST(queue_linked_unlimited_size);
 
     printf("\nTestes com Strings:\n");
-    test_queue_array_strings();
-    test_queue_linked_strings();
+    RUN_TEST(queue_array_strings);
+    RUN_TEST(queue_linked_strings);
 
     printf("\nTestes com Structs:\n");
-    test_queue_array_structs();
+    RUN_TEST(queue_array_structs);
 
     printf("\nTestes de Erro:\n");
-    test_queue_null_pointer_checks();
+    RUN_TEST(queue_null_pointer_checks);
 
     printf("\nPrint Visual:\n");
-    test_queue_print_visual();
+    RUN_TEST(queue_print_visual);
 
-    printf("\n========================================\n");
-    printf("  TODOS OS TESTES PASSARAM! ✓\n");
-    printf("  Total: 24 testes\n");
-    printf("========================================\n");
+    printf("\n============================================\n");
+    printf("  ✅ TODOS OS TESTES PASSARAM! (24 testes)\n");
+    printf("============================================\n");
 
     return 0;
 }

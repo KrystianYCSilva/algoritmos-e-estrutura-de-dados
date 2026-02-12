@@ -35,7 +35,7 @@
  */
 int compare_int(const void *a, const void *b) {
     if (a == NULL || b == NULL) {
-        return (a == NULL) - (b == NULL);
+        return (b == NULL) - (a == NULL);
     }
 
     int ia = *(const int*)a;
@@ -56,7 +56,7 @@ int compare_int(const void *a, const void *b) {
  */
 int compare_float(const void *a, const void *b) {
     if (a == NULL || b == NULL) {
-        return (a == NULL) - (b == NULL);
+        return (b == NULL) - (a == NULL);
     }
 
     float fa = *(const float*)a;
@@ -79,7 +79,7 @@ int compare_float(const void *a, const void *b) {
  */
 int compare_double(const void *a, const void *b) {
     if (a == NULL || b == NULL) {
-        return (a == NULL) - (b == NULL);
+        return (b == NULL) - (a == NULL);
     }
 
     double da = *(const double*)a;
@@ -102,14 +102,14 @@ int compare_double(const void *a, const void *b) {
  */
 int compare_string(const void *a, const void *b) {
     if (a == NULL || b == NULL) {
-        return (a == NULL) - (b == NULL);
+        return (b == NULL) - (a == NULL);
     }
 
     const char *sa = *(const char**)a;
     const char *sb = *(const char**)b;
 
     if (sa == NULL || sb == NULL) {
-        return (sa == NULL) - (sb == NULL);
+        return (sb == NULL) - (sa == NULL);
     }
 
     return strcmp(sa, sb);
@@ -137,7 +137,6 @@ void* copy_string(const void *src) {
         return NULL;
     }
 
-    // Alocar e copiar
     size_t len = strlen(str);
     char *copy = (char*)malloc(len + 1);
     if (copy == NULL) {
@@ -145,7 +144,7 @@ void* copy_string(const void *src) {
     }
 
     memcpy(copy, str, len + 1);
-    return &copy;  // Retornar ponteiro para o ponteiro
+    return copy;
 }
 
 // ============================================================================

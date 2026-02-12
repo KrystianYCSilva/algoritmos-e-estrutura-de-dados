@@ -11,37 +11,10 @@
 
 #include "data_structures/bst.h"
 #include "data_structures/common.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../test_macros.h"
+
 #include <string.h>
 #include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) \
-    void test_##name(); \
-    printf("  Running: %-50s", #name); \
-    test_##name(); \
-    printf("[✓ PASS]\n"); \
-    void test_##name()
-
-#define ASSERT(condition) \
-    do { \
-        if (!(condition)) { \
-            printf("\n    Assertion failed: %s\n", #condition); \
-            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
-            exit(1); \
-        } \
-    } while(0)
-
-#define ASSERT_EQ(a, b) ASSERT((a) == (b))
-#define ASSERT_NE(a, b) ASSERT((a) != (b))
-#define ASSERT_TRUE(x) ASSERT(x)
-#define ASSERT_FALSE(x) ASSERT(!(x))
-#define ASSERT_NULL(ptr) ASSERT((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) ASSERT((ptr) != NULL)
 
 // ============================================================================
 // TESTES
@@ -251,6 +224,15 @@ TEST(height) {
     bst_destroy(bst);
 }
 
+static int inorder_expected[] = {20, 30, 40, 50, 60, 70, 80};
+
+static void check_inorder(void *data, void *user_data) {
+    int *idx = (int*)user_data;
+    int val = *(int*)data;
+    assert(val == inorder_expected[*idx]);
+    (*idx)++;
+}
+
 TEST(inorder_traversal) {
     BST *bst = bst_create(sizeof(int), compare_int, NULL);
     int values[] = {50, 30, 70, 20, 40, 60, 80};
@@ -259,17 +241,8 @@ TEST(inorder_traversal) {
         bst_insert(bst, &values[i]);
     }
     
-    int expected[] = {20, 30, 40, 50, 60, 70, 80};
     int index = 0;
-    
-    void check_order(void *data, void *user_data) {
-        int *idx = (int*)user_data;
-        int val = *(int*)data;
-        ASSERT_EQ(val, expected[*idx]);
-        (*idx)++;
-    }
-    
-    bst_inorder(bst, check_order, &index);
+    bst_inorder(bst, check_inorder, &index);
     ASSERT_EQ(index, 7);
     
     bst_destroy(bst);
@@ -374,32 +347,30 @@ int main(void) {
     printf("╚══════════════════════════════════════════════════════════════╝\n");
     printf("\n");
 
-    TEST(create_destroy);
-    TEST(insert_single);
-    TEST(insert_multiple);
-    TEST(search_existing);
-    TEST(search_not_found);
-    TEST(contains);
-    TEST(remove_leaf);
-    TEST(remove_one_child);
-    TEST(remove_two_children);
-    TEST(min_max);
-    TEST(successor);
-    TEST(predecessor);
-    TEST(is_valid_bst);
-    TEST(height);
-    TEST(inorder_traversal);
-    TEST(clear);
-    TEST(to_array);
-    TEST(range_count);
-    TEST(select_kth);
-    TEST(clone);
+    RUN_TEST(create_destroy);
+    RUN_TEST(insert_single);
+    RUN_TEST(insert_multiple);
+    RUN_TEST(search_existing);
+    RUN_TEST(search_not_found);
+    RUN_TEST(contains);
+    RUN_TEST(remove_leaf);
+    RUN_TEST(remove_one_child);
+    RUN_TEST(remove_two_children);
+    RUN_TEST(min_max);
+    RUN_TEST(successor);
+    RUN_TEST(predecessor);
+    RUN_TEST(is_valid_bst);
+    RUN_TEST(height);
+    RUN_TEST(inorder_traversal);
+    RUN_TEST(clear);
+    RUN_TEST(to_array);
+    RUN_TEST(range_count);
+    RUN_TEST(select_kth);
+    RUN_TEST(clone);
 
-    printf("\n");
-    printf("╔══════════════════════════════════════════════════════════════╗\n");
-    printf("║                    ✓ ALL TESTS PASSED                       ║\n");
-    printf("╚══════════════════════════════════════════════════════════════╝\n");
-    printf("\n");
+    printf("\n============================================\n");
+    printf("  ✅ TODOS OS TESTES PASSARAM! (20 testes)\n");
+    printf("============================================\n\n");
 
     return 0;
 }

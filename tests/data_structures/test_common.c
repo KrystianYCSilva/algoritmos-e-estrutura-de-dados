@@ -10,38 +10,13 @@
  */
 
 #include "data_structures/common.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../test_macros.h"
+
 #include <string.h>
 #include <assert.h>
 #include <math.h>
 
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) \
-    void test_##name(); \
-    printf("  Running: %-40s", #name); \
-    test_##name(); \
-    printf("[✓ PASS]\n"); \
-    void test_##name()
-
-#define ASSERT(condition) \
-    do { \
-        if (!(condition)) { \
-            printf("\n    Assertion failed: %s\n", #condition); \
-            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
-            exit(1); \
-        } \
-    } while(0)
-
-#define ASSERT_EQ(a, b) ASSERT((a) == (b))
-#define ASSERT_NE(a, b) ASSERT((a) != (b))
-#define ASSERT_LT(a, b) ASSERT((a) < (b))
-#define ASSERT_GT(a, b) ASSERT((a) > (b))
-#define ASSERT_NULL(ptr) ASSERT((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) ASSERT((ptr) != NULL)
+#include "hash_table.h"
 
 // ============================================================================
 // TESTES DE COMPARAÇÃO
@@ -290,59 +265,59 @@ int main(void) {
     printf("========================================\n\n");
 
     printf("Comparação de inteiros:\n");
-    test_compare_int_equal();
-    test_compare_int_less_than();
-    test_compare_int_greater_than();
-    test_compare_int_negative_numbers();
-    test_compare_int_null();
+    RUN_TEST(compare_int_equal);
+    RUN_TEST(compare_int_less_than);
+    RUN_TEST(compare_int_greater_than);
+    RUN_TEST(compare_int_negative_numbers);
+    RUN_TEST(compare_int_null);
 
     printf("\nComparação de floats:\n");
-    test_compare_float_equal();
-    test_compare_float_close_enough();
-    test_compare_float_different();
+    RUN_TEST(compare_float_equal);
+    RUN_TEST(compare_float_close_enough);
+    RUN_TEST(compare_float_different);
 
     printf("\nComparação de doubles:\n");
-    test_compare_double_equal();
-    test_compare_double_different();
+    RUN_TEST(compare_double_equal);
+    RUN_TEST(compare_double_different);
 
     printf("\nComparação de strings:\n");
-    test_compare_string_equal();
-    test_compare_string_less_than();
-    test_compare_string_greater_than();
-    test_compare_string_empty();
-    test_compare_string_null();
+    RUN_TEST(compare_string_equal);
+    RUN_TEST(compare_string_less_than);
+    RUN_TEST(compare_string_greater_than);
+    RUN_TEST(compare_string_empty);
+    RUN_TEST(compare_string_null);
 
     printf("\nFunções hash (int):\n");
-    test_hash_int_basic();
-    test_hash_int_consistency();
-    test_hash_int_different_values();
-    test_hash_int_null();
+    RUN_TEST(hash_int_basic);
+    RUN_TEST(hash_int_consistency);
+    RUN_TEST(hash_int_different_values);
+    RUN_TEST(hash_int_null);
 
     printf("\nFunções hash (string):\n");
-    test_hash_string_basic();
-    test_hash_string_consistency();
-    test_hash_string_different_strings();
-    test_hash_string_empty();
-    test_hash_string_null();
-    test_hash_djb2_same_as_hash_string();
+    RUN_TEST(hash_string_basic);
+    RUN_TEST(hash_string_consistency);
+    RUN_TEST(hash_string_different_strings);
+    RUN_TEST(hash_string_empty);
+    RUN_TEST(hash_string_null);
+    RUN_TEST(hash_djb2_same_as_hash_string);
 
     printf("\nFunções hash (FNV-1a):\n");
-    test_hash_fnv1a_basic();
-    test_hash_fnv1a_consistency();
-    test_hash_fnv1a_different_data();
-    test_hash_fnv1a_null();
+    RUN_TEST(hash_fnv1a_basic);
+    RUN_TEST(hash_fnv1a_consistency);
+    RUN_TEST(hash_fnv1a_different_data);
+    RUN_TEST(hash_fnv1a_null);
 
     printf("\nFunções hash (multiplicativa):\n");
-    test_hash_multiplicative_basic();
-    test_hash_multiplicative_consistency();
-    test_hash_multiplicative_null();
+    RUN_TEST(hash_multiplicative_basic);
+    RUN_TEST(hash_multiplicative_consistency);
+    RUN_TEST(hash_multiplicative_null);
 
     printf("\nFunções de impressão:\n");
-    test_print_functions_visual();
+    RUN_TEST(print_functions_visual);
 
-    printf("\n========================================\n");
-    printf("  TODOS OS TESTES PASSARAM! ✓\n");
-    printf("========================================\n");
+    printf("\n============================================\n");
+    printf("  ✅ TODOS OS TESTES PASSARAM! (35 testes)\n");
+    printf("============================================\n");
 
     return 0;
 }

@@ -10,36 +10,9 @@
 
 #include "data_structures/stack.h"
 #include "data_structures/common.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../test_macros.h"
+
 #include <string.h>
-#include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) \
-    void test_##name(); \
-    printf("  %-50s", #name); \
-    test_##name(); \
-    printf("[✓ PASS]\n"); \
-    void test_##name()
-
-#define ASSERT(condition) \
-    do { \
-        if (!(condition)) { \
-            printf("\n    ✗ Assertion failed: %s\n", #condition); \
-            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
-            exit(1); \
-        } \
-    } while(0)
-
-#define ASSERT_EQ(a, b) ASSERT((a) == (b))
-#define ASSERT_TRUE(cond) ASSERT(cond)
-#define ASSERT_FALSE(cond) ASSERT(!(cond))
-#define ASSERT_NULL(ptr) ASSERT((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) ASSERT((ptr) != NULL)
 
 // ============================================================================
 // TESTES PARA STACK_ARRAY
@@ -452,41 +425,40 @@ int main(void) {
     printf("========================================\n\n");
 
     printf("STACK_ARRAY:\n");
-    test_stack_array_create_destroy();
-    test_stack_array_push_pop_single();
-    test_stack_array_lifo_order();
-    test_stack_array_top();
-    test_stack_array_resize();
-    test_stack_array_clear();
-    test_stack_array_empty_operations();
-    test_stack_array_reverse();
+    RUN_TEST(stack_array_create_destroy);
+    RUN_TEST(stack_array_push_pop_single);
+    RUN_TEST(stack_array_lifo_order);
+    RUN_TEST(stack_array_top);
+    RUN_TEST(stack_array_resize);
+    RUN_TEST(stack_array_clear);
+    RUN_TEST(stack_array_empty_operations);
+    RUN_TEST(stack_array_reverse);
 
     printf("\nSTACK_LINKED:\n");
-    test_stack_linked_create_destroy();
-    test_stack_linked_push_pop_single();
-    test_stack_linked_lifo_order();
-    test_stack_linked_top();
-    test_stack_linked_clear();
-    test_stack_linked_unlimited_size();
-    test_stack_linked_reverse();
+    RUN_TEST(stack_linked_create_destroy);
+    RUN_TEST(stack_linked_push_pop_single);
+    RUN_TEST(stack_linked_lifo_order);
+    RUN_TEST(stack_linked_top);
+    RUN_TEST(stack_linked_clear);
+    RUN_TEST(stack_linked_unlimited_size);
+    RUN_TEST(stack_linked_reverse);
 
     printf("\nAplicações Clássicas:\n");
-    test_stack_balanced_parentheses();
-    test_stack_reverse_string();
+    RUN_TEST(stack_balanced_parentheses);
+    RUN_TEST(stack_reverse_string);
 
     printf("\nTestes com Strings:\n");
-    test_stack_array_strings();
+    RUN_TEST(stack_array_strings);
 
     printf("\nTestes de Erro:\n");
-    test_stack_null_pointer_checks();
+    RUN_TEST(stack_null_pointer_checks);
 
     printf("\nPrint Visual:\n");
-    test_stack_print_visual();
+    RUN_TEST(stack_print_visual);
 
-    printf("\n========================================\n");
-    printf("  TODOS OS TESTES PASSARAM! ✓\n");
-    printf("  Total: 23 testes\n");
-    printf("========================================\n");
+    printf("\n============================================\n");
+    printf("  ✅ TODOS OS TESTES PASSARAM! (23 testes)\n");
+    printf("============================================\n");
 
     return 0;
 }

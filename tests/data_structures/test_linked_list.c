@@ -10,35 +10,9 @@
 
 #include "data_structures/linked_list.h"
 #include "data_structures/common.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "../test_macros.h"
+
 #include <string.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) \
-    void test_##name(); \
-    printf("  %-50s", #name); \
-    test_##name(); \
-    printf("[✓ PASS]\n"); \
-    void test_##name()
-
-#define ASSERT(condition) \
-    do { \
-        if (!(condition)) { \
-            printf("\n    ✗ Assertion failed: %s\n", #condition); \
-            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
-            exit(1); \
-        } \
-    } while(0)
-
-#define ASSERT_EQ(a, b) ASSERT((a) == (b))
-#define ASSERT_TRUE(cond) ASSERT(cond)
-#define ASSERT_FALSE(cond) ASSERT(!(cond))
-#define ASSERT_NULL(ptr) ASSERT((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) ASSERT((ptr) != NULL)
 
 // ============================================================================
 // TESTES BÁSICOS - DOUBLY LINKED LIST
@@ -508,46 +482,45 @@ int main(void) {
     printf("========================================\n\n");
 
     printf("DOUBLY LINKED LIST:\n");
-    test_doubly_create_destroy();
-    test_doubly_push_front_back();
-    test_doubly_pop_front_back();
-    test_doubly_insert_at();
-    test_doubly_remove_at();
-    test_doubly_find();
-    test_doubly_index_of();
-    test_doubly_remove_value();
-    test_doubly_clear();
-    test_doubly_reverse();
-    test_doubly_iterators();
+    RUN_TEST(doubly_create_destroy);
+    RUN_TEST(doubly_push_front_back);
+    RUN_TEST(doubly_pop_front_back);
+    RUN_TEST(doubly_insert_at);
+    RUN_TEST(doubly_remove_at);
+    RUN_TEST(doubly_find);
+    RUN_TEST(doubly_index_of);
+    RUN_TEST(doubly_remove_value);
+    RUN_TEST(doubly_clear);
+    RUN_TEST(doubly_reverse);
+    RUN_TEST(doubly_iterators);
 
     printf("\nSINGLY LINKED LIST:\n");
-    test_singly_create_destroy();
-    test_singly_push_front_back();
-    test_singly_pop_operations();
+    RUN_TEST(singly_create_destroy);
+    RUN_TEST(singly_push_front_back);
+    RUN_TEST(singly_pop_operations);
 
     printf("\nCIRCULAR LINKED LIST:\n");
-    test_circular_create_destroy();
-    test_circular_push_operations();
-    test_circular_iteration();
+    RUN_TEST(circular_create_destroy);
+    RUN_TEST(circular_push_operations);
+    RUN_TEST(circular_iteration);
 
     printf("\nTestes com Strings:\n");
-    test_doubly_strings();
+    RUN_TEST(doubly_strings);
 
     printf("\nTestes com Structs:\n");
-    test_doubly_structs();
+    RUN_TEST(doubly_structs);
 
     printf("\nTestes de Erro:\n");
-    test_error_null_pointers();
-    test_error_invalid_index();
-    test_error_empty_operations();
+    RUN_TEST(error_null_pointers);
+    RUN_TEST(error_invalid_index);
+    RUN_TEST(error_empty_operations);
 
     printf("\nPrint Visual:\n");
-    test_print_visual();
+    RUN_TEST(print_visual);
 
-    printf("\n========================================\n");
-    printf("  TODOS OS TESTES PASSARAM! ✓\n");
-    printf("  Total: 24 testes\n");
-    printf("========================================\n");
+    printf("\n============================================\n");
+    printf("  ✅ TODOS OS TESTES PASSARAM! (24 testes)\n");
+    printf("============================================\n");
 
     return 0;
 }

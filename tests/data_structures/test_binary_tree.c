@@ -14,30 +14,9 @@
 
 #include "data_structures/binary_tree.h"
 #include "data_structures/common.h"
+#include "../test_macros.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) static void test_##name(void)
-#define RUN_TEST(name) do { \
-    printf("  - " #name "... "); \
-    fflush(stdout); \
-    test_##name(); \
-    printf("✓\n"); \
-} while(0)
-
-#define ASSERT_TRUE(expr) assert(expr)
-#define ASSERT_FALSE(expr) assert(!(expr))
-#define ASSERT_EQ(a, b) assert((a) == (b))
-#define ASSERT_NE(a, b) assert((a) != (b))
-#define ASSERT_NULL(ptr) assert((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) assert((ptr) != NULL)
 
 // ============================================================================
 // HELPERS

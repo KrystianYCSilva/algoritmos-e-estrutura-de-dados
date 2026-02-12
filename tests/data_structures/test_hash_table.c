@@ -15,30 +15,9 @@
 
 #include "data_structures/hash_table.h"
 #include "data_structures/common.h"
+#include "../test_macros.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-
-// ============================================================================
-// MACROS DE TESTE
-// ============================================================================
-
-#define TEST(name) static void test_##name(void)
-#define RUN_TEST(name) do { \
-    printf("  - " #name "... "); \
-    fflush(stdout); \
-    test_##name(); \
-    printf("✓\n"); \
-} while(0)
-
-#define ASSERT_TRUE(expr) assert(expr)
-#define ASSERT_FALSE(expr) assert(!(expr))
-#define ASSERT_EQ(a, b) assert((a) == (b))
-#define ASSERT_NE(a, b) assert((a) != (b))
-#define ASSERT_NULL(ptr) assert((ptr) == NULL)
-#define ASSERT_NOT_NULL(ptr) assert((ptr) != NULL)
 
 // ============================================================================
 // TESTES: CRIAÇÃO E DESTRUIÇÃO
@@ -292,9 +271,9 @@ TEST(string_keys_chaining) {
                                       hash_string, compare_string,
                                       HASH_CHAINING, destroy_string, NULL);
 
-    char *key1 = copy_string_fn(&(char*){"Alice"});
-    char *key2 = copy_string_fn(&(char*){"Bob"});
-    char *key3 = copy_string_fn(&(char*){"Charlie"});
+    char *key1 = copy_string(&(char*){"Alice"});
+    char *key2 = copy_string(&(char*){"Bob"});
+    char *key3 = copy_string(&(char*){"Charlie"});
 
     int val1 = 10, val2 = 20, val3 = 30;
 
@@ -308,9 +287,6 @@ TEST(string_keys_chaining) {
     hashtable_get(ht, &key2, &result);
     ASSERT_EQ(result, 20);
 
-    free(key1);
-    free(key2);
-    free(key3);
     hashtable_destroy(ht);
 }
 
@@ -319,8 +295,8 @@ TEST(string_keys_linear_probing) {
                                       hash_string, compare_string,
                                       HASH_LINEAR_PROBING, destroy_string, NULL);
 
-    char *key1 = copy_string_fn(&(char*){"one"});
-    char *key2 = copy_string_fn(&(char*){"two"});
+    char *key1 = copy_string(&(char*){"one"});
+    char *key2 = copy_string(&(char*){"two"});
 
     int val1 = 1, val2 = 2;
 
@@ -331,8 +307,6 @@ TEST(string_keys_linear_probing) {
     hashtable_get(ht, &key1, &result);
     ASSERT_EQ(result, 1);
 
-    free(key1);
-    free(key2);
     hashtable_destroy(ht);
 }
 
@@ -634,9 +608,8 @@ TEST(print_visual) {
     int ages[] = {25, 30, 35, 40, 45};
 
     for (int i = 0; i < 5; i++) {
-        char *key = copy_string_fn(&names[i]);
+        char *key = copy_string(&names[i]);
         hashtable_put(ht, &key, &ages[i]);
-        free(key);
     }
 
     printf("    HashTable (Chaining) - String -> Int:\n");
