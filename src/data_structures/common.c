@@ -63,7 +63,7 @@ int compare_float(const void *a, const void *b) {
     float fb = *(const float*)b;
 
     // Epsilon para comparação de ponto flutuante
-    const float epsilon = 1e-6f;
+    const float epsilon = 1e-4f;
     float diff = fa - fb;
 
     if (fabs(diff) < epsilon) return 0;

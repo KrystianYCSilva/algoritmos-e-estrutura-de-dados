@@ -63,14 +63,14 @@ set(DATA_STRUCTURES_SOURCES
     src/data_structures/hash_table.c    # ✓ IMPLEMENTADO (chaining + open addressing)
     src/data_structures/binary_tree.c   # ✓ IMPLEMENTADO (travessias + propriedades)
     src/data_structures/bst.c           # ✓ IMPLEMENTADO (BST completa)
-    # src/data_structures/heap.c
-    # src/data_structures/graph.c
+    src/data_structures/heap.c          # ✓ IMPLEMENTADO (binary heap)
+    src/data_structures/graph.c         # ✓ IMPLEMENTADO (adj list + matrix, BFS/DFS)
 
-    # Fase 1C: Balanceadas e Especializadas (a serem implementadas)
-    # src/data_structures/avl_tree.c
-    # src/data_structures/priority_queue.c
-    # src/data_structures/trie.c
-    # src/data_structures/union_find.c
+    # Fase 1C: Balanceadas e Especializadas
+    src/data_structures/avl_tree.c      # ✓ IMPLEMENTADO (AVL auto-balanceada)
+    src/data_structures/priority_queue.c # ✓ IMPLEMENTADO (sobre heap)
+    src/data_structures/trie.c          # ✓ IMPLEMENTADO (prefix tree)
+    src/data_structures/union_find.c    # ✓ IMPLEMENTADO (disjoint set)
 )
 
 # Criar biblioteca estática com estruturas de dados
@@ -133,6 +133,36 @@ if(BUILD_TESTS)
     add_executable(test_bst tests/data_structures/test_bst.c)
     target_link_libraries(test_bst data_structures)
     add_test(NAME BSTTests COMMAND test_bst)
+
+    # Teste do heap.c
+    add_executable(test_heap tests/data_structures/test_heap.c)
+    target_link_libraries(test_heap data_structures)
+    add_test(NAME HeapTests COMMAND test_heap)
+
+    # Teste do avl_tree.c
+    add_executable(test_avl_tree tests/data_structures/test_avl_tree.c)
+    target_link_libraries(test_avl_tree data_structures m)
+    add_test(NAME AVLTreeTests COMMAND test_avl_tree)
+
+    # Teste do priority_queue.c
+    add_executable(test_priority_queue tests/data_structures/test_priority_queue.c)
+    target_link_libraries(test_priority_queue data_structures)
+    add_test(NAME PriorityQueueTests COMMAND test_priority_queue)
+
+    # Teste do trie.c
+    add_executable(test_trie tests/data_structures/test_trie.c)
+    target_link_libraries(test_trie data_structures)
+    add_test(NAME TrieTests COMMAND test_trie)
+
+    # Teste do union_find.c
+    add_executable(test_union_find tests/data_structures/test_union_find.c)
+    target_link_libraries(test_union_find data_structures)
+    add_test(NAME UnionFindTests COMMAND test_union_find)
+
+    # Teste do graph.c
+    add_executable(test_graph tests/data_structures/test_graph.c)
+    target_link_libraries(test_graph data_structures)
+    add_test(NAME GraphTests COMMAND test_graph)
 endif()
 
 # ============================================================================
