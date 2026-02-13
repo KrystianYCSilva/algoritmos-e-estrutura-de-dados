@@ -669,7 +669,11 @@ int main(void) {
 >     src/optimization/metaheuristics/ils.c \
 >     src/optimization/metaheuristics/grasp.c \
 >     src/optimization/metaheuristics/pso.c \
->     src/optimization/metaheuristics/aco.c -lm
+>     src/optimization/metaheuristics/aco.c \
+>     src/optimization/metaheuristics/differential_evolution.c \
+>     src/optimization/metaheuristics/vns.c \
+>     src/optimization/metaheuristics/memetic.c \
+>     src/optimization/metaheuristics/lns.c -lm
 > ```
 
 ### 3.1 Hill Climbing - TSP
@@ -1034,6 +1038,202 @@ int main(void) {
 }
 ```
 
+### 3.10 Differential Evolution - Continuous Function
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/continuous.h"
+#include "optimization/metaheuristics/differential_evolution.h"
+#include <stdio.h>
+
+int main(void) {
+    ContinuousInstance *sphere = continuous_create_sphere(10);
+
+    DEConfig config = de_default_config();
+    config.population_size = 50;
+    config.max_generations = 1000;
+    config.F = 0.8;
+    config.CR = 0.9;
+    config.strategy = DE_RAND_1;
+    config.lower_bound = -5.12;
+    config.upper_bound = 5.12;
+    config.seed = 42;
+
+    OptResult result = de_run(&config, sphere->dimensions,
+                              continuous_evaluate, sphere);
+
+    printf("DE Sphere (D=10) best: %.6f (optimal=0.0)\n", result.best.cost);
+
+    double *x = (double*)result.best.data;
+    printf("Solution: [");
+    for (size_t i = 0; i < sphere->dimensions; i++) {
+        printf("%.4f%s", x[i], i < sphere->dimensions - 1 ? ", " : "");
+    }
+    printf("]\n");
+
+    opt_result_destroy(&result);
+    continuous_instance_destroy(sphere);
+    return 0;
+}
+```
+
+### 3.11 VNS - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/vns.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    VNSConfig config = vns_default_config();
+    config.max_iterations = 50;
+    config.k_max = 5;
+    config.local_search_iterations = 100;
+    config.local_search_neighbors = 15;
+    config.variant = VNS_BASIC;
+    config.seed = 42;
+
+    OptResult result = vns_run(&config,
+                               sizeof(int),
+                               tsp->n_cities,
+                               tsp_tour_cost,
+                               vns_shake_tsp,
+                               tsp_neighbor_2opt,
+                               tsp_generate_random,
+                               tsp);
+
+    printf("VNS best tour cost: %.2f\n", result.best.cost);
+    printf("Iterations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    tsp_print_tour((int*)result.best.data, tsp->n_cities, result.best.cost);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.12 Memetic Algorithm - TSP (Lamarckian)
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/memetic.h"
+#include "optimization/metaheuristics/genetic_algorithm.h"
+#include <stdio.h>
+
+static void ma_crossover_ox(const void *p1, const void *p2,
+                            void *c1, void *c2,
+                            size_t size, const void *context) {
+    ga_crossover_ox(p1, p2, c1, c2, size, context);
+}
+
+static void ma_mutation_swap(void *solution, size_t size,
+                             double rate, const void *context) {
+    ga_mutation_swap(solution, size, rate, context);
+}
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    MAConfig config = ma_default_config();
+    config.population_size = 30;
+    config.max_generations = 50;
+    config.crossover_rate = 0.8;
+    config.mutation_rate = 0.05;
+    config.elitism_count = 2;
+    config.selection = MA_SELECT_TOURNAMENT;
+    config.tournament_size = 3;
+    config.learning = MA_LAMARCKIAN;
+    config.ls_iterations = 50;
+    config.ls_neighbors = 10;
+    config.ls_probability = 1.0;
+    config.seed = 42;
+
+    OptResult result = ma_run(&config,
+                              sizeof(int),
+                              tsp->n_cities,
+                              tsp_tour_cost,
+                              tsp_generate_random,
+                              ma_crossover_ox,
+                              ma_mutation_swap,
+                              tsp_neighbor_swap,
+                              tsp);
+
+    printf("MA best tour cost: %.2f\n", result.best.cost);
+    printf("Generations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.13 LNS / ALNS - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/lns.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    // --- LNS Basico ---
+    LNSConfig config = lns_default_config();
+    config.max_iterations = 500;
+    config.destroy_degree = 0.3;
+    config.acceptance = LNS_ACCEPT_BETTER;
+    config.seed = 42;
+
+    OptResult result = lns_run(&config,
+                               sizeof(int),
+                               tsp->n_cities,
+                               tsp_tour_cost,
+                               tsp_generate_random,
+                               lns_destroy_tsp_random,
+                               lns_repair_tsp_greedy,
+                               tsp);
+
+    printf("LNS best tour cost: %.2f\n", result.best.cost);
+    opt_result_destroy(&result);
+
+    // --- ALNS (Adaptive) ---
+    config.variant = LNS_ADAPTIVE;
+    config.acceptance = LNS_ACCEPT_SA_LIKE;
+    config.sa_initial_temp = 50.0;
+    config.sa_alpha = 0.995;
+    config.num_destroy_ops = 2;
+    config.num_repair_ops = 2;
+    config.weight_update_interval = 50;
+
+    DestroyFn destroys[] = { lns_destroy_tsp_random, lns_destroy_tsp_worst };
+    RepairFn repairs[] = { lns_repair_tsp_greedy, lns_repair_tsp_random };
+
+    OptResult result2 = alns_run(&config,
+                                 sizeof(int),
+                                 tsp->n_cities,
+                                 tsp_tour_cost,
+                                 tsp_generate_random,
+                                 destroys, repairs,
+                                 tsp);
+
+    printf("ALNS best tour cost: %.2f\n", result2.best.cost);
+    printf("Iterations: %zu, Evaluations: %zu\n",
+           result2.num_iterations, result2.num_evaluations);
+
+    opt_result_destroy(&result2);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
 ---
 
 ## 4. Padrões de Uso Comuns
@@ -1098,4 +1298,4 @@ shortest_path_free(sp);
 
 ---
 
-*Última atualização: 2026-02-13*
+*Última atualização: 2026-02-13 (Phase 3C adicionada)*
