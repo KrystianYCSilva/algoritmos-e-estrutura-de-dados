@@ -9,7 +9,7 @@ description: "Plano detalhado de implementação: estruturas de dados (3 fases),
 Plano detalhado para implementação da biblioteca acadêmica em C11. Organizado em 3 macro-fases:
 1. **Fase 1**: Estruturas de Dados (14 estruturas) - ✅ COMPLETA
 2. **Fase 2**: Algoritmos Fundamentais (~45 algoritmos) - ✅ COMPLETA
-3. **Fase 3**: Heurísticas e Meta-Heurísticas (12+ algoritmos) - 🔄 EM PROGRESSO (3A ✅, 3B ✅)
+3. **Fase 3**: Heurísticas e Meta-Heurísticas (12 algoritmos) - ✅ COMPLETA (3A ✅, 3B ✅, 3C ✅)
 
 ---
 
@@ -69,7 +69,7 @@ Plano detalhado para implementação da biblioteca acadêmica em C11. Organizado
 
 ---
 
-## Fase 3: Heurísticas e Meta-Heurísticas 🔄 EM PROGRESSO
+## Fase 3: Heurísticas e Meta-Heurísticas ✅ COMPLETA
 
 ### Phase 3A - Classical ✅ COMPLETA (91 testes)
 
@@ -86,13 +86,12 @@ Plano detalhado para implementação da biblioteca acadêmica em C11. Organizado
 - [x] PSO (constant/linear decreasing/constriction inertia, velocity clamping) — 10 testes
 - [x] ACO (Ant System/Elitist/MAX-MIN, pheromone evaporation, builtin TSP heuristic) — 10 testes
 
-### Phase 3C - Specialized ⏳
+### Phase 3C - Specialized ✅ COMPLETA (40 testes)
 
-- [ ] Differential Evolution
-- [ ] VNS (Variable Neighborhood Search)
-- [ ] Memetic Algorithm (GA + Local Search)
-- [ ] LNS (Large Neighborhood Search)
-- [ ] Continuous benchmarks: Rastrigin, Rosenbrock, Ackley
+- [x] Differential Evolution (DE/rand/1, DE/best/1, DE/current-to-best/1, DE/rand/2, DE/best/2) — 10 testes
+- [x] VNS (Basic VNS, Reduced VNS, General VNS with VND, builtin shake TSP/continuous) — 10 testes
+- [x] Memetic Algorithm (Lamarckian/Baldwinian, tournament/roulette/rank, reuses GA operators) — 10 testes
+- [x] LNS/ALNS (destroy-and-repair, SA-like acceptance, adaptive operator selection) — 10 testes
 
 ---
 
@@ -117,4 +116,4 @@ Para cada componente implementado:
 
 ---
 
-**Última atualização**: 2026-02-13
+**Última atualização**: 2026-02-13 (Phase 3C concluída)

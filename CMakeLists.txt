@@ -125,6 +125,12 @@ set(OPTIMIZATION_SOURCES
     src/optimization/metaheuristics/grasp.c               # ✓ RCL construction, reactive GRASP, builtin constructors
     src/optimization/metaheuristics/pso.c                 # ✓ 3 inertia types (constant/linear/constriction)
     src/optimization/metaheuristics/aco.c                 # ✓ 3 variants (AS/Elitist/MMAS)
+
+    # Phase 3C - Heurísticas Especializadas
+    src/optimization/metaheuristics/differential_evolution.c # ✓ 5 strategies (rand/1, best/1, current-to-best/1, rand/2, best/2)
+    src/optimization/metaheuristics/vns.c                    # ✓ 3 variants (Basic, Reduced, General/VND)
+    src/optimization/metaheuristics/memetic.c                # ✓ 2 learning types (Lamarckian, Baldwinian)
+    src/optimization/metaheuristics/lns.c                    # ✓ 2 variants (LNS basic, ALNS adaptive)
 )
 
 add_library(optimization STATIC ${OPTIMIZATION_SOURCES})
@@ -317,6 +323,28 @@ if(BUILD_TESTS)
     add_executable(test_aco tests/optimization/test_aco.c)
     target_link_libraries(test_aco optimization m)
     add_test(NAME ACOTests COMMAND test_aco)
+
+    # Phase 3C - Heurísticas Especializadas
+
+    # Teste de Differential Evolution
+    add_executable(test_differential_evolution tests/optimization/test_differential_evolution.c)
+    target_link_libraries(test_differential_evolution optimization m)
+    add_test(NAME DifferentialEvolutionTests COMMAND test_differential_evolution)
+
+    # Teste de VNS
+    add_executable(test_vns tests/optimization/test_vns.c)
+    target_link_libraries(test_vns optimization m)
+    add_test(NAME VNSTests COMMAND test_vns)
+
+    # Teste de Memetic Algorithm
+    add_executable(test_memetic tests/optimization/test_memetic.c)
+    target_link_libraries(test_memetic optimization m)
+    add_test(NAME MemeticTests COMMAND test_memetic)
+
+    # Teste de LNS
+    add_executable(test_lns tests/optimization/test_lns.c)
+    target_link_libraries(test_lns optimization m)
+    add_test(NAME LNSTests COMMAND test_lns)
 endif()
 
 # ============================================================================

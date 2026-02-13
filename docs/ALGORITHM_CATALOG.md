@@ -250,15 +250,15 @@ description: "Catálogo completo de algoritmos do projeto com status de implemen
 | 9 | PSO (Particle Swarm) | Population-Based | 3 inertia types (constant/linear decreasing/constriction factor) | ✅ |
 | 10 | ACO (Ant Colony) | Population-Based | 3 variants (Ant System/Elitist/MAX-MIN), builtin TSP heuristic | ✅ |
 
-### Phase 3C - Specialized ⏳
-| # | Algoritmo | Tipo | Status |
-|---|-----------|------|--------|
-| 11 | DE (Differential Evolution) | Population-Based | ⏳ |
-| 12 | VNS (Variable Neighborhood) | Single-Solution | ⏳ |
-| 13 | Memetic Algorithm | Hybrid | ⏳ |
-| 14 | LNS (Large Neighborhood Search) | Single-Solution | ⏳ |
+### Phase 3C - Specialized ✅ COMPLETO
+| # | Algoritmo | Tipo | Variantes | Status |
+|---|-----------|------|-----------|--------|
+| 11 | DE (Differential Evolution) | Population-Based | 5 mutation strategies (rand/1, best/1, current-to-best/1, rand/2, best/2), binomial crossover | ✅ |
+| 12 | VNS (Variable Neighborhood) | Single-Solution | Basic VNS, Reduced VNS, General VNS (VND), builtin shake TSP/continuous | ✅ |
+| 13 | Memetic Algorithm | Hybrid | Lamarckian/Baldwinian learning, tournament/roulette/rank selection, reuses GA operators | ✅ |
+| 14 | LNS (Large Neighborhood Search) | Single-Solution | LNS basic + ALNS adaptive, better/SA-like acceptance, builtin TSP destroy/repair operators | ✅ |
 
-**Referências**: Talbi (2009); Gendreau & Potvin (2019); Luke (2013); Kirkpatrick et al. (1983); Glover (1986); Holland (1975)
+**Referências**: Talbi (2009); Gendreau & Potvin (2019); Luke (2013); Kirkpatrick et al. (1983); Glover (1986); Holland (1975); Storn & Price (1997); Mladenovic & Hansen (1997); Moscato (1989); Shaw (1998); Ropke & Pisinger (2006)
 
 ---
 
@@ -277,20 +277,20 @@ description: "Catálogo completo de algoritmos do projeto com status de implemen
 | Numerical | 5 | 5 ✅ | 5 | 10 |
 | Divide & Conquer | 5 | 5 ✅ | 3 | 8 |
 | Backtracking | 4 | 4 ✅ | 4 | 8 |
-| Heurísticas (Phase 3) | 12 | 8 ✅ (3A+3B) | - | 12 |
+| Heurísticas (Phase 3) | 12 | 12 ✅ (3A+3B+3C) | - | 12 |
 | Benchmarks (Phase 3) | 2 | 2 ✅ (3A) | - | 2 |
-| **TOTAL** | **64** | **60/64 ✅** | **38** | **102** |
+| **TOTAL** | **64** | **64/64 ✅** | **38** | **102** |
 
 ### Status Geral
 ```
 Must-Have Algorithms:     50/50 (100%) ✅
 Phase 3A (Classical):     4/4 (100%) ✅ + 2 benchmarks
 Phase 3B (Advanced):      4/4 (100%) ✅ (ILS, GRASP, PSO, ACO)
-Phase 3C (Specialized):   0/4 (0%) ⏳
+Phase 3C (Specialized):   4/4 (100%) ✅ (DE, VNS, Memetic, LNS/ALNS)
 Nice-to-Have:             0/38 (0%)
-Total Testes:             ~639 (308 DS + 199 Alg + 91 Opt 3A + 41 Opt 3B)
+Total Testes:             ~679 (308 DS + 199 Alg + 91 Opt 3A + 41 Opt 3B + 40 Opt 3C)
 ```
 
 ---
 
-*Última atualização: 2026-02-13*
+*Última atualização: 2026-02-13 (Phase 3C concluída)*
