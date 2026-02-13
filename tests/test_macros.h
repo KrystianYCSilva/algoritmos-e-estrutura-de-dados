@@ -43,4 +43,14 @@
 #define ASSERT_NULL(ptr)      ASSERT((ptr) == NULL)
 #define ASSERT_NOT_NULL(ptr)  ASSERT((ptr) != NULL)
 
+#define ASSERT_NEAR(a, b, eps) \
+    do { \
+        double _a = (a), _b = (b), _e = (eps); \
+        if ((_a - _b) > _e || (_b - _a) > _e) { \
+            printf("\n    ASSERT_NEAR failed: %f != %f (eps=%f)\n", _a, _b, _e); \
+            printf("    File: %s, Line: %d\n", __FILE__, __LINE__); \
+            exit(1); \
+        } \
+    } while(0)
+
 #endif

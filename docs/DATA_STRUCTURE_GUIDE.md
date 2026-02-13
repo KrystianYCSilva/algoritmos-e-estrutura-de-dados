@@ -4,240 +4,250 @@ description: "Guia de decisão para escolher a estrutura de dados correta basead
 
 # Guia de Escolha de Estruturas de Dados
 
-## 🎯 Como Escolher a Estrutura de Dados Correta
+## Como Escolher a Estrutura de Dados Correta
 
-Este guia ajuda a escolher a estrutura de dados mais apropriada para cada situação, baseado em padrões de acesso e requisitos de performance.
+Este guia ajuda a escolher a estrutura mais apropriada para cada situação, baseado em padrões de acesso e requisitos de performance.
 
-## 📊 Tabela Comparativa Rápida
+## Tabela Comparativa Rápida
 
-| Estrutura | Acesso | Inserção (fim) | Inserção (início) | Inserção (meio) | Busca | Uso de Memória |
-|-----------|--------|----------------|-------------------|-----------------|-------|----------------|
-| **ArrayList** | O(1) | O(1)* | O(n) | O(n) | O(n) | Baixo (contíguo) |
-| **LinkedList** | O(n) | O(1) | O(1) | O(1)† | O(n) | Alto (ponteiros) |
-| **Stack** | O(1)‡ | O(1)* | N/A | N/A | N/A | Baixo |
-| **Queue** | O(1)‡ | O(1)* | N/A | N/A | N/A | Baixo |
+### Estruturas Lineares
 
-*: Amortizado
-†: Com ponteiro para a posição
-‡: Apenas topo/front
+| Estrutura | Acesso | Inserção (fim) | Inserção (início) | Busca | Memória |
+|-----------|--------|----------------|-------------------|-------|---------|
+| **ArrayList** | O(1) | O(1)* | O(n) | O(n) / O(log n)† | Baixo |
+| **LinkedList** | O(n) | O(1) | O(1) | O(n) | Alto |
+| **Stack** | O(1)‡ | O(1)* | N/A | N/A | Baixo |
+| **Queue** | O(1)‡ | O(1)* | N/A | N/A | Baixo |
 
-## 🔍 Casos de Uso Detalhados
+### Estruturas Associativas e Árvores
+
+| Estrutura | Insert | Search | Delete | Min/Max | Ordenado |
+|-----------|--------|--------|--------|---------|----------|
+| **HashTable** | O(1)* | O(1)* | O(1)* | O(n) | Não |
+| **BST** | O(log n)§ | O(log n)§ | O(log n)§ | O(log n)§ | Sim |
+| **AVL Tree** | O(log n) | O(log n) | O(log n) | O(log n) | Sim |
+| **Heap** | O(log n) | O(n) | O(log n)‖ | O(1) | Parcial |
+| **Trie** | O(m) | O(m) | O(m) | N/A | Sim (lex) |
+
+*: Amortizado | †: Com array ordenado | ‡: Apenas topo/front | §: Caso médio, O(n) pior caso | ‖: Extract-min/max | m: comprimento da string
+
+### Estruturas Especializadas
+
+| Estrutura | Operação Principal | Complexidade | Uso Típico |
+|-----------|-------------------|-------------|------------|
+| **Priority Queue** | Extract-min/max | O(log n) | Scheduling, Dijkstra |
+| **Union-Find** | Find / Union | O(α(n)) ≈ O(1) | Componentes conexos, Kruskal |
+| **Graph** | BFS/DFS | O(V+E) | Redes, caminhos |
+
+---
+
+## Casos de Uso Detalhados
 
 ### ArrayList - Use Quando:
 
 ✅ **INDICADO**:
-- Acesso frequente por índice (ex: `array[i]`)
+- Acesso frequente por índice
 - Inserções principalmente no final
-- Tamanho aproximado conhecido antecipadamente
-- Memória contígua é importante (melhor cache locality)
-- Iteração sequencial frequente
-- Busca binária necessária (após ordenação)
+- Memória contígua (cache locality)
+- Busca binária após ordenação
 
 ❌ **NÃO INDICADO**:
-- Inserções/remoções frequentes no início ou meio
+- Inserções/remoções frequentes no início/meio
 - Tamanho varia muito e imprevisível
-- Realocações frequentes são problemáticas
 
-**Exemplos Práticos**:
 ```c
-// ✅ BOM USO: Buffer de dados, histórico
-ArrayList *history = arraylist_create(sizeof(Action), 100, NULL);
-
-// ✅ BOM USO: Coordenadas em um jogo
-typedef struct { float x, y, z; } Point3D;
-ArrayList *vertices = arraylist_create(sizeof(Point3D), 1000, NULL);
-
-// ❌ MAU USO: Fila de prioridade com muitas inserções no meio
-// Use heap ou lista encadeada ordenada
+ArrayList *arr = arraylist_create(sizeof(int), 100, NULL);
+arraylist_push_back(arr, &val);
+arraylist_get(arr, i, &out);
+arraylist_sort(arr, compare_int);
 ```
-
-**Complexidade Detalhada**:
-- `arraylist_get(i)`: O(1) - acesso direto via ponteiro
-- `arraylist_push_back()`: O(1) amortizado - análise: 1 + 2 + 4 + ... + n < 2n
-- `arraylist_insert(i)`: O(n - i) - precisa deslocar elementos
-- `arraylist_binary_search()`: O(log n) - requer array ordenado
 
 ---
 
 ### LinkedList - Use Quando:
 
 ✅ **INDICADO**:
-- Inserções/remoções frequentes em posições arbitrárias
-- Tamanho muito variável e imprevisível
-- Não precisa de acesso por índice
-- Iteração sempre sequencial
-- Implementar outras estruturas (Queue, Stack, Graph adjacencies)
-- Algoritmos que requerem splice/merge constantes
+- Inserções/remoções em posições arbitrárias
+- Tamanho muito variável
+- Implementar outras estruturas (Graph adjacencies)
 
 ❌ **NÃO INDICADO**:
-- Acesso frequente por índice
-- Cache locality é crítica
-- Memória limitada (overhead de ponteiros)
-- Precisa de busca binária
+- Acesso por índice frequente
+- Cache locality crítica
 
-**Exemplos Práticos**:
 ```c
-// ✅ BOM USO: Lista de tarefas com prioridades dinâmicas
-LinkedList *tasks = list_create(sizeof(Task), LIST_DOUBLY, destroy_task);
-
-// ✅ BOM USO: Histórico de navegação (fácil inserir/remover)
-LinkedList *browser_history = list_create(sizeof(URL), LIST_DOUBLY, free_url);
-
-// ✅ BOM USO: Implementar LRU Cache
-LinkedList *lru_list = list_create(sizeof(CacheEntry), LIST_DOUBLY, free_entry);
-
-// ❌ MAU USO: Array de pixels de uma imagem (acesso aleatório frequente)
-// Use ArrayList
+LinkedList *list = list_create(sizeof(int), LIST_DOUBLY, NULL);
+list_push_front(list, &val);
+list_push_back(list, &val);
 ```
-
-**Complexidade Detalhada**:
-- `list_get(i)`: O(i) - precisa percorrer até a posição
-- `list_push_front/back()`: O(1) - apenas ajusta ponteiros
-- `list_insert_after(node)`: O(1) - COM ponteiro para o nó
-- `list_find()`: O(n) - sempre linear
-- Overhead de memória: +16 bytes por elemento (2 ponteiros em 64-bit)
 
 ---
 
 ### Stack - Use Quando:
 
-✅ **INDICADO**:
-- Precisar de LIFO (Last In, First Out)
-- Backtracking / recursão iterativa
-- Desfazer/refazer operações (undo/redo)
-- Validação de parênteses, tags, etc.
-- DFS (Depth-First Search)
-- Parsing de expressões
+✅ **INDICADO**: LIFO, backtracking, undo/redo, DFS, parsing de expressões, parênteses balanceados
 
-❌ **NÃO INDICADO**:
-- Precisa acessar elementos além do topo
-- Precisa de FIFO (use Queue)
-
-**Exemplos Práticos**:
 ```c
-// ✅ CLÁSSICO: Validação de parênteses balanceados
-Stack *paren_stack = stack_create(sizeof(char), STACK_ARRAY, 50, NULL);
-
-// ✅ CLÁSSICO: Undo/Redo
-Stack *undo_stack = stack_create(sizeof(Command), STACK_ARRAY, 100, destroy_cmd);
-Stack *redo_stack = stack_create(sizeof(Command), STACK_ARRAY, 100, destroy_cmd);
-
-// ✅ CLÁSSICO: Avaliação de expressões RPN (Reverse Polish Notation)
-Stack *rpn_stack = stack_create(sizeof(double), STACK_ARRAY, 30, NULL);
-
-// ✅ ALGORITMO: DFS iterativo
-Stack *dfs_stack = stack_create(sizeof(Node*), STACK_ARRAY, 1000, NULL);
+Stack *s = stack_create(sizeof(int), STACK_ARRAY, 50, NULL);
+stack_push(s, &val);
+stack_pop(s, &out);
 ```
-
-**Quando usar STACK_ARRAY vs STACK_LINKED**:
-- **STACK_ARRAY**: Melhor performance, tamanho máximo conhecido
-- **STACK_LINKED**: Tamanho ilimitado, mas mais lento (cache misses)
 
 ---
 
 ### Queue - Use Quando:
 
+✅ **INDICADO**: FIFO, BFS, buffer de eventos, scheduling, producer-consumer
+
+```c
+Queue *q = queue_create(sizeof(int), QUEUE_ARRAY, 100, NULL);
+queue_enqueue(q, &val);
+queue_dequeue(q, &out);
+```
+
+---
+
+### HashTable - Use Quando:
+
 ✅ **INDICADO**:
-- Precisar de FIFO (First In, First Out)
-- BFS (Breadth-First Search)
-- Buffer de eventos/mensagens
-- Scheduling de tarefas
-- Producer-Consumer pattern
-- Simulações (filas de atendimento)
+- Lookup O(1) por chave
+- Dicionários, caches, sets, contagem de frequência
+- Deduplicação
 
 ❌ **NÃO INDICADO**:
-- Precisa acessar elementos no meio
-- Precisa de LIFO (use Stack)
+- Dados precisam estar ordenados
+- Range queries
+- Memória limitada (overhead de buckets)
 
-**Exemplos Práticos**:
 ```c
-// ✅ CLÁSSICO: BFS em grafos
-Queue *bfs_queue = queue_create(sizeof(Node*), QUEUE_ARRAY, 1000, NULL);
-
-// ✅ SISTEMA: Fila de tarefas
-Queue *task_queue = queue_create(sizeof(Task), QUEUE_LINKED, 0, destroy_task);
-
-// ✅ SIMULAÇÃO: Fila de atendimento bancário
-Queue *bank_queue = queue_create(sizeof(Customer), QUEUE_ARRAY, 50, NULL);
-
-// ✅ EVENTOS: Buffer circular para logs
-Queue *log_buffer = queue_create(sizeof(LogEntry), QUEUE_ARRAY, 1024, free_log);
+HashTable *ht = hashtable_create(sizeof(char*), sizeof(int), 16,
+    hash_string, compare_string, HASH_CHAINING,
+    destroy_string, NULL);
+hashtable_put(ht, &key, &val);
+hashtable_get(ht, &key, &out);
 ```
 
-**Quando usar QUEUE_ARRAY vs QUEUE_LINKED**:
-- **QUEUE_ARRAY**: Melhor performance (circular buffer), tamanho previsível
-- **QUEUE_LINKED**: Tamanho ilimitado, útil para picos imprevisíveis
+**Estratégias de colisão**:
+- `HASH_CHAINING`: Melhor para load factors altos, simples
+- `HASH_LINEAR_PROBING`: Melhor cache locality, clustering
+- `HASH_QUADRATIC_PROBING`: Menos clustering que linear
+- `HASH_DOUBLE_HASHING`: Melhor distribuição, mais lento
 
 ---
 
-## 🧪 Benchmarks Esperados
+### BST / AVL Tree - Use Quando:
 
-### Inserção de 1 milhão de elementos:
+✅ **INDICADO**:
+- Dados ordenados com insert/search/delete O(log n)
+- Range queries eficientes
+- Successor/predecessor queries
+- Min/max em O(log n)
 
-| Estrutura | Tempo (ms) | Memória (MB) | Cache Misses |
-|-----------|------------|--------------|--------------|
-| ArrayList (push_back) | ~50 | ~8 | Baixo |
-| LinkedList (push_back) | ~150 | ~24 | Alto |
-| Stack Array (push) | ~50 | ~8 | Baixo |
-| Queue Array (enqueue) | ~60 | ~8 | Baixo |
+❌ **NÃO INDICADO**:
+- Apenas lookup por chave (use HashTable)
+- Dados não têm ordem natural
 
-### Acesso aleatório (1M operações):
+```c
+// BST - O(log n) médio, O(n) pior caso
+BST *tree = bst_create(sizeof(int), compare_int, NULL);
+bst_insert(tree, &val);
 
-| Estrutura | Tempo (ms) | Razão |
-|-----------|------------|-------|
-| ArrayList[random] | ~10 | - |
-| LinkedList[random] | ~500000 | 50000x mais lento! |
+// AVL - O(log n) GARANTIDO
+AVLTree *avl = avl_create(sizeof(int), compare_int, NULL);
+avl_insert(avl, &val);
+```
 
-### Busca linear (1M elementos):
+**Quando BST vs AVL?**
+- **BST**: Dados inseridos aleatoriamente, implementação simples
+- **AVL**: Dados podem vir ordenados (BST degenera para lista), precisa de garantia O(log n)
 
-| Estrutura | Tempo (ms) | Observação |
-|-----------|------------|------------|
-| ArrayList | ~15 | Cache-friendly |
-| LinkedList | ~50 | Cache misses |
+---
 
-## 📖 Referências para Escolha
+### Heap / Priority Queue - Use Quando:
 
-**Literatura**:
-1. Cormen et al. (2009), Chapter 10 - "Elementary Data Structures"
-   - Discussão sobre trade-offs entre arrays e listas encadeadas
+✅ **INDICADO**:
+- Extrair mínimo/máximo repetidamente
+- Dijkstra, A*, scheduling
+- Top-K elements
+- Mediana em streaming
 
-2. Sedgewick & Wayne (2011), Section 1.3 - "Bags, Queues, and Stacks"
-   - Análise empírica de performance
+❌ **NÃO INDICADO**:
+- Busca por chave arbitrária (O(n))
+- Dados precisam estar totalmente ordenados
 
-3. Skiena (2020), "The Algorithm Design Manual" (3rd ed.), Chapter 3
-   - Guia prático de escolha de estruturas
-
-**Regras de Ouro**:
-
-1. **"Acesso aleatório frequente → ArrayList"**
-2. **"Inserções/remoções frequentes → LinkedList"**
-3. **"LIFO → Stack"**
-4. **"FIFO → Queue"**
-5. **"Quando em dúvida e performance importa → ArrayList"** (melhor cache locality)
-
-## 🔬 Experimentos Recomendados
-
-Para seu caso de uso específico, recomendamos:
-
-1. **Implementar protótipo** com a estrutura "óbvia"
-2. **Medir com profiler** (gprof, perf, Valgrind)
-3. **Identificar gargalos** (CPU-bound vs memory-bound)
-4. **Testar alternativa** se necessário
-5. **Comparar empiricamente**
-
-**Exemplo de análise**:
-```bash
-# Compilar com profiling
-gcc -pg -O2 programa.c -o programa
-
-# Executar
-./programa
-
-# Analisar
-gprof programa gmon.out > analysis.txt
+```c
+Heap *h = heap_create(sizeof(int), 16, HEAP_MIN, compare_int, NULL);
+PriorityQueue *pq = priority_queue_create(sizeof(int), 16, PQ_MIN, compare_int, NULL);
 ```
 
 ---
 
-**Nota**: Estas recomendações assumem hardware moderno (cache L1/L2/L3, RAM abundante).
-Para sistemas embarcados ou restrições específicas, análise adicional pode ser necessária.
+### Graph - Use Quando:
+
+✅ **INDICADO**: Modelagem de redes, caminhos mínimos, árvore geradora, ciclos, componentes
+
+```c
+// Adjacency List (esparso) - recomendado para maioria dos casos
+Graph *g = graph_create(100, GRAPH_UNDIRECTED, GRAPH_ADJACENCY_LIST, true);
+
+// Adjacency Matrix (denso) - quando E ≈ V²
+Graph *g = graph_create(100, GRAPH_DIRECTED, GRAPH_ADJACENCY_MATRIX, true);
+```
+
+**Quando List vs Matrix?**
+- **List**: E << V² (esparso), maioria dos grafos reais
+- **Matrix**: E ≈ V² (denso), Floyd-Warshall, verificar aresta O(1)
+
+---
+
+### Trie - Use Quando:
+
+✅ **INDICADO**: Autocomplete, prefix matching, dicionários de strings, longest common prefix
+
+```c
+Trie *t = trie_create(26);
+trie_insert(t, "algorithm");
+trie_starts_with(t, "algo");  // true
+trie_autocomplete(t, "al", &results, &count);
+```
+
+---
+
+### Union-Find - Use Quando:
+
+✅ **INDICADO**: Componentes conexos dinâmicos, Kruskal MST, equivalência de classes
+
+```c
+UnionFind *uf = union_find_create(n);
+union_find_union(uf, a, b);
+union_find_connected(uf, a, b);
+```
+
+---
+
+## Regras de Ouro
+
+1. **Acesso aleatório frequente** → ArrayList
+2. **Inserções/remoções frequentes** → LinkedList
+3. **LIFO** → Stack
+4. **FIFO** → Queue
+5. **Lookup por chave O(1)** → HashTable
+6. **Dados ordenados + range queries** → BST / AVL
+7. **Extrair min/max repetidamente** → Heap / Priority Queue
+8. **Prefix matching em strings** → Trie
+9. **"Quem pertence ao mesmo grupo?"** → Union-Find
+10. **Modelar relações entre entidades** → Graph
+11. **Quando em dúvida e performance importa** → ArrayList (cache locality)
+
+---
+
+## Referências
+
+1. Cormen et al. (2009), Chapters 6, 10-13, 21-22
+2. Knuth (1997-1998), TAOCP Vol 1-3
+3. Sedgewick & Wayne (2011), Algorithms (4th ed.)
+4. Skiena (2020), The Algorithm Design Manual (3rd ed.), Chapter 3
+
+---
+
+**Última atualização**: 2026-02-12

@@ -1,329 +1,181 @@
 ---
-description: "Plano geral do projeto: estruturas planejadas (13 totais), fases de implementação (1A/1B/1C), progresso atual e roadmap completo."
+description: "Roadmap completo do projeto: estruturas de dados (14), algoritmos fundamentais (~45), heurísticas (planejado). Progresso e métricas."
 ---
 
 # Project Roadmap - Algoritmos e Heurísticas
 
-## 📊 Visão Geral
+## Visão Geral
 
-**Objetivo**: Biblioteca acadêmica em C11 de estruturas de dados, algoritmos e heurísticas com rigor científico.
+**Objetivo**: Biblioteca acadêmica em C11 de estruturas de dados, algoritmos clássicos, heurísticas e meta-heurísticas com rigor científico.
 
-**Total de Estruturas**: 13 estruturas essenciais organizadas em 3 fases  
-**Status Atual**: Fase 1A ✅ COMPLETA | Fase 1B ⏳ 40% | Fase 1C ⏳ PENDENTE
-
----
-
-## 🎯 Estruturas Planejadas (13 Total)
-
-### Fase 1A - Estruturas Lineares ✅ COMPLETA (5/5)
-
-| # | Estrutura | Arquivo | Referência | Complexidade | Status |
-|---|-----------|---------|------------|--------------|--------|
-| 1 | **Queue** | queue.c/h | Cormen 10.1 | O(1) enqueue/dequeue | ✅ |
-| 2 | **Stack** | stack.c/h | Cormen 10.1 | O(1) push/pop | ✅ |
-| 3 | **LinkedList** | linked_list.c/h | Knuth Vol1 2.2 | O(1) insert c/ ptr | ✅ |
-| 4 | **ArrayList** | array_list.c/h | Goodrich Ch7 | O(1) amort append | ✅ |
-| 5 | **Common** | common.c/h | - | Funções auxiliares | ✅ |
-
-**Implementado**: 2.660 linhas, 132 testes  
-**Data Conclusão**: 2025-02-12
+**Status Atual**:
+- Fase 1 (Estruturas de Dados): ✅ COMPLETA (14/14)
+- Fase 2 (Algoritmos Fundamentais): ✅ COMPLETA (~45 algoritmos, 9 categorias)
+- Fase 3 (Heurísticas e Meta-Heurísticas): ⏳ PLANEJADO
 
 ---
 
-### Fase 1B - Associativas e Árvores ⏳ 40% (2/5)
+## Fase 1 - Estruturas de Dados ✅ COMPLETA
 
-| # | Estrutura | Arquivo | Referência | Complexidade | Status |
-|---|-----------|---------|------------|--------------|--------|
-| 6 | **HashTable** | hash_table.c/h | Cormen 11 | O(1) amort | ✅ |
-| 7 | **BinaryTree** | binary_tree.c/h | Cormen 12 | Base p/ BST | ✅ |
-| 8 | **BST** | bst.c/h | Cormen 12 | O(log n) médio | 🔄 PRÓXIMO |
-| 9 | **Heap** | heap.c/h | Cormen 6 | O(log n) | ⏳ |
-| 10 | **Graph** | graph.c/h | Cormen 22 | Varia | ⏳ |
+### Fase 1A - Estruturas Lineares ✅ (5/5)
 
-**Implementado**: ~1.900 linhas, 56 testes  
-**Estimativa Restante**: ~1.900 linhas, 60 testes
+| # | Estrutura | Arquivo | Referência | Status |
+|---|-----------|---------|------------|--------|
+| 1 | Common Utilities | common.c/h | Knuth TAOCP Vol 3 | ✅ |
+| 2 | Queue | queue.c/h | Cormen Ch. 10.1 | ✅ |
+| 3 | Stack | stack.c/h | Cormen Ch. 10.1 | ✅ |
+| 4 | LinkedList | linked_list.c/h | Knuth Vol 1 Sec 2.2 | ✅ |
+| 5 | ArrayList | array_list.c/h | Goodrich Ch. 7 | ✅ |
 
-**HashTable Features**:
-- Chaining + Open Addressing (Linear/Quadratic/Double Hashing)
-- Rehashing automático (load factor 0.75 chaining, 0.5 open)
-- Hash functions: djb2, FNV-1a, multiplicativa (Knuth)
+**Métricas**: 2.660 linhas, 132 testes | **Conclusão**: 2025-02-12
 
-**BinaryTree Features**:
-- Travessias: inorder, preorder, postorder, level-order (BFS)
-- Propriedades: altura, folhas, is_complete, is_full, is_perfect
-- Algoritmos: LCA, distance, diameter
+### Fase 1B - Associativas e Árvores ✅ (5/5)
+
+| # | Estrutura | Arquivo | Referência | Status |
+|---|-----------|---------|------------|--------|
+| 6 | HashTable | hash_table.c/h | Cormen Ch. 11 | ✅ |
+| 7 | BinaryTree | binary_tree.c/h | Cormen Ch. 12 | ✅ |
+| 8 | BST | bst.c/h | Cormen Ch. 12 | ✅ |
+| 9 | Heap | heap.c/h | Cormen Ch. 6 | ✅ |
+| 10 | Graph | graph.c/h | Cormen Ch. 22 | ✅ |
+
+**Métricas**: ~4.410 linhas, 117 testes | **Conclusão**: 2025-02-12
+
+### Fase 1C - Balanceadas e Especializadas ✅ (4/4)
+
+| # | Estrutura | Arquivo | Referência | Status |
+|---|-----------|---------|------------|--------|
+| 11 | AVL Tree | avl_tree.c/h | Adelson-Velsky & Landis (1962) | ✅ |
+| 12 | Priority Queue | priority_queue.c/h | Cormen Ch. 6.5 | ✅ |
+| 13 | Trie | trie.c/h | Fredkin (1960) | ✅ |
+| 14 | Union-Find | union_find.c/h | Cormen Ch. 21 | ✅ |
+
+**Métricas**: ~1.507 linhas, 59 testes | **Conclusão**: 2025-02-12
+
+**Total Fase 1**: 14 estruturas, ~8.577 linhas, ~308 testes, 0 memory leaks
 
 ---
 
-### Fase 1C - Balanceadas e Especializadas ⏳ PENDENTE (0/4)
+## Fase 2 - Algoritmos Fundamentais ✅ COMPLETA
 
-| # | Estrutura | Arquivo | Referência | Complexidade | Status |
-|---|-----------|---------|------------|--------------|--------|
-| 11 | **AVL Tree** | avl_tree.c/h | Adelson-Velsky 1962 | O(log n) GARANTIDO | ⏳ |
-| 12 | **PriorityQueue** | priority_queue.c/h | Cormen 6 | O(log n) | ⏳ |
-| 13 | **Trie** | trie.c/h | Knuth Vol3 6.3 | O(m) | ⏳ |
-| 14 | **UnionFind** | union_find.c/h | Cormen 21 | O(α(n)) ≈ O(1) | ⏳ |
+### Wave 1 - Core ✅
 
-**Estimativa**: ~1.500 linhas, 50 testes
+| Categoria | Algoritmos | Testes | Referência |
+|-----------|-----------|--------|------------|
+| Sorting (10) | Bubble, Selection, Insertion, Shell, Merge, Quick, Heap, Counting, Radix, Bucket | 20 | Cormen Ch. 2, 6, 7, 8 |
+| Searching (6) | Linear, Binary, Interpolation, Ternary, Jump, Exponential | 19 | Cormen Ch. 2; Knuth Vol 3 |
+| Graph Algorithms (5) | Dijkstra, Bellman-Ford, Floyd-Warshall, Kruskal, Prim | 8 | Cormen Ch. 23-25 |
+
+### Wave 2 - Classical ✅
+
+| Categoria | Algoritmos | Testes | Referência |
+|-----------|-----------|--------|------------|
+| String Matching (4) | Naive, KMP, Rabin-Karp, Boyer-Moore | 32 | Cormen Ch. 32 |
+| Dynamic Programming (8) | Fibonacci, LCS, Knapsack 0/1, Edit Distance, LIS, Rod Cutting, Matrix Chain, Coin Change | 38 | Cormen Ch. 15 |
+| Greedy (3) | Activity Selection, Huffman Coding, Fractional Knapsack | 16 | Cormen Ch. 16 |
+| Numerical (5) | GCD, Extended GCD, Fast Exp, Sieve, is_prime | 24 | Cormen Ch. 31 |
+
+### Wave 3 - Advanced ✅
+
+| Categoria | Algoritmos | Testes | Referência |
+|-----------|-----------|--------|------------|
+| Divide & Conquer (5) | Strassen, Closest Pair, Karatsuba, Max Subarray, Quick Select | 23 | Cormen Ch. 4 |
+| Backtracking (4) | N-Queens, Subset Sum, Permutations, Graph Coloring | 19 | Cormen Ch. 34 |
+
+**Total Fase 2**: ~45 algoritmos, ~6.000 linhas, 199 testes, 0 failures
 
 ---
 
-## 📈 Progresso Atual
+## Fase 3 - Heurísticas e Meta-Heurísticas ⏳ PLANEJADO
+
+### Phase 3A - Classical ⏳
+| Algoritmo | Tipo | Referência | Status |
+|-----------|------|------------|--------|
+| Hill Climbing | Local Search | Russell & Norvig (2010) | ⏳ |
+| Simulated Annealing | Single-Solution | Kirkpatrick et al. (1983) | ⏳ |
+| Tabu Search | Single-Solution | Glover (1986) | ⏳ |
+| Genetic Algorithm | Population-Based | Holland (1975) | ⏳ |
+
+### Phase 3B - Advanced ⏳
+| Algoritmo | Tipo | Referência | Status |
+|-----------|------|------------|--------|
+| PSO | Population-Based | Kennedy & Eberhart (1995) | ⏳ |
+| ACO | Population-Based | Dorigo (1992) | ⏳ |
+| GRASP | Hybrid | Feo & Resende (1995) | ⏳ |
+| ILS | Single-Solution | Lourenço et al. (2003) | ⏳ |
+
+### Phase 3C - Specialized ⏳
+| Algoritmo | Tipo | Referência | Status |
+|-----------|------|------------|--------|
+| Differential Evolution | Population-Based | Storn & Price (1997) | ⏳ |
+| VNS | Single-Solution | Mladenović & Hansen (1997) | ⏳ |
+| Memetic Algorithm | Hybrid | Moscato (1989) | ⏳ |
+| LNS | Single-Solution | Shaw (1998) | ⏳ |
+
+### Benchmark Problems
+- TSP (Traveling Salesman Problem)
+- VRP (Vehicle Routing Problem)
+- Knapsack variants
+- Job Shop / Flow Shop Scheduling
+- Graph Coloring
+- Continuous: Rastrigin, Rosenbrock, Ackley
+
+---
+
+## Progresso Geral
 
 ```
-╔═══════════════════════════════════════════════════════════╗
-║                  PROGRESSO FASE 1                         ║
-╠═══════════════════════════════════════════════════════════╣
-║ Fase 1A (Lineares):           ✅ 100% (5/5 estruturas)   ║
-║   - Queue, Stack, LinkedList, ArrayList, Common          ║
-║   - 2.660 linhas, 132 testes                             ║
-║                                                           ║
-║ Fase 1B (Associativas):       ⏳ 40% (2/5 estruturas)    ║
-║   - HashTable ✅, BinaryTree ✅                           ║
-║   - BST 🔄, Heap ⏳, Graph ⏳                             ║
-║   - 1.900 linhas, 56 testes                              ║
-║                                                           ║
-║ Fase 1C (Especializadas):     ⏳ 0% (0/4 estruturas)     ║
-║   - AVL, PriorityQueue, Trie, UnionFind                  ║
-║                                                           ║
-║ TOTAL GERAL:                  54% (7/13 estruturas)      ║
-╚═══════════════════════════════════════════════════════════╝
-```
-
----
-
-## 🎓 Validação Acadêmica
-
-### Referências Bibliográficas
-
-**Principal**:
-- Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.)
-  - Ch. 6: Heapsort
-  - Ch. 10: Elementary Data Structures  
-  - Ch. 11: Hash Tables
-  - Ch. 12: Binary Search Trees
-  - Ch. 21: Disjoint Sets
-  - Ch. 22: Graph Algorithms
-
-**Complementares**:
-- Knuth, D. E. (1997-1998). *The Art of Computer Programming*
-  - Vol 1: Fundamental Algorithms (Lists, Trees)
-  - Vol 3: Sorting and Searching (Hash, BST, Trie)
-- Sedgewick, R., & Wayne, K. (2011). *Algorithms* (4th ed.)
-- Goodrich, M. T., et al. (2011). *Data Structures and Algorithms in C++*
-
-**Papers Clássicos**:
-- Adelson-Velsky & Landis (1962) - AVL Tree
-- Tarjan (1975) - Union-Find efficiency
-- Fredkin (1960) - Trie memory
-
-### Pseudocódigos Implementados
-
-✅ **Fase 1A**:
-- ENQUEUE/DEQUEUE (Cormen p. 235)
-- PUSH/POP (Cormen p. 233)
-- LIST-INSERT/DELETE (Cormen p. 238)
-- BINARY-SEARCH (Cormen p. 799)
-
-✅ **Fase 1B** (parcial):
-- CHAINED-HASH-INSERT/SEARCH (Cormen p. 258)
-- HASH-INSERT/SEARCH open addressing (Cormen p. 271)
-- INORDER/PREORDER/POSTORDER-TREE-WALK (Cormen p. 288)
-
-⏳ **Pendentes**:
-- TREE-INSERT/DELETE/SEARCH (Cormen p. 290-298) - BST
-- MAX-HEAPIFY, BUILD-MAX-HEAP (Cormen p. 154-157) - Heap
-- BFS, DFS (Cormen p. 594, 604) - Graph
-
----
-
-## 🔧 Design de Genericidade
-
-### Tipos Genéricos em C
-
-Todas as estruturas suportam tipos genéricos via `void*`:
-
-```c
-// Function pointers para operações customizadas
-typedef int (*CompareFn)(const void *a, const void *b);
-typedef void* (*CopyFn)(const void *src);
-typedef void (*DestroyFn)(void *data);
-typedef void (*PrintFn)(const void *data);
-typedef size_t (*HashFn)(const void *data);
-
-// Suporta:
-✅ Primitivos: int, float, double, char
-✅ Strings: char* com gerenciamento automático
-✅ Ponteiros: void*, structs*
-✅ Structs customizadas com copy/destroy
-✅ Arrays e matrizes
+╔═══════════════════════════════════════════════════════════════╗
+║                    PROGRESSO DO PROJETO                       ║
+╠═══════════════════════════════════════════════════════════════╣
+║ Fase 1 (Estruturas de Dados):    ✅ 100% (14/14)             ║
+║   - 1A Lineares: 5/5 ✅                                      ║
+║   - 1B Associativas/Árvores: 5/5 ✅                          ║
+║   - 1C Balanceadas/Especializadas: 4/4 ✅                    ║
+║                                                               ║
+║ Fase 2 (Algoritmos Fundamentais): ✅ 100% (~45 algoritmos)   ║
+║   - W1 Sorting/Searching/Graph: 21 algs ✅                   ║
+║   - W2 String/DP/Greedy/Numerical: 20 algs ✅                ║
+║   - W3 D&C/Backtracking: 9 algs ✅                           ║
+║                                                               ║
+║ Fase 3 (Heurísticas):             ⏳ 0% (0/12)              ║
+║   - 3A Classical: SA, Tabu, GA, HC ⏳                        ║
+║   - 3B Advanced: PSO, ACO, GRASP, ILS ⏳                    ║
+║   - 3C Specialized: DE, VNS, Memetic, LNS ⏳                ║
+║                                                               ║
+║ TOTAL: ~67% (Fases 1+2 completas, Fase 3 pendente)          ║
+╚═══════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 📊 Estatísticas do Projeto
-
-### Implementado (Fases 1A + parte 1B)
+## Estatísticas do Projeto
 
 ```
-Estruturas Completas:   7/13 (54%)
-Linhas de Código:       4.560
-Testes Unitários:       188
-Arquivos .c:            7
-Arquivos .h:            14 (todos os headers criados)
-Documentação:           100% dos arquivos
-Referências:            15+ livros e papers
-Pseudocódigos:          10+ algoritmos clássicos
-```
-
-### Estimativa Total (ao final)
-
-```
-Linhas de Código:       ~7.000
-Testes Unitários:       ~290
-Tempo Total:            8-10 semanas
+Estruturas de Dados:      14 completas
+Algoritmos:               ~45 completos
+Linhas de Código:         ~14.500+
+Testes Unitários:         ~507 (100% passing)
+Memory Leaks:             0
+Categorias:               9 (sorting, searching, graph, string, DP, greedy, numerical, D&C, backtracking)
+Referências Acadêmicas:   30+ livros e papers
+Pseudocódigos:            35+ implementados do CLRS
 ```
 
 ---
 
-## ⏭️ Próximos Passos
+## Documentação
 
-### Imediato (Fase 1B)
-
-1. **BST** (Binary Search Tree) 🔄 PRÓXIMO
-   - TREE-INSERT, TREE-SEARCH, TREE-DELETE
-   - Min, Max, Successor, Predecessor
-   - Validação BST
-   - Estimativa: ~600 linhas, ~20 testes
-
-2. **Heap** (Min/Max Binary Heap)
-   - MAX-HEAPIFY, BUILD-MAX-HEAP
-   - Insert, Extract-Min/Max
-   - Heap Sort
-   - Estimativa: ~500 linhas, ~18 testes
-
-3. **Graph** (Adjacency List + Matrix)
-   - BFS, DFS
-   - Directed/Undirected, Weighted/Unweighted
-   - Estimativa: ~800 linhas, ~22 testes
-
-### Curto Prazo (Fase 1C)
-
-4. **AVL Tree** - Auto-balanceamento garantido
-5. **Priority Queue** - Implementada sobre Heap
-6. **Trie** - Autocomplete e prefix matching
-7. **Union-Find** - Disjoint sets com path compression
-
-### Médio Prazo (Fase 2 - Futuro)
-
-- Red-Black Tree
-- B-Tree / B+ Tree
-- Skip List
-- Bloom Filter
-- Segment Tree
-- Fenwick Tree
-
-### Longo Prazo (Fase 3+)
-
-- **Algoritmos Clássicos**: Sorting, Searching, Graph algorithms
-- **Heurísticas**: Greedy algorithms
-- **Meta-heurísticas**: Genetic Algorithms, Simulated Annealing, Tabu Search
+| Documento | Descrição |
+|-----------|-----------|
+| `ALGORITHM_CATALOG.md` | Catálogo completo com status de implementação |
+| `USAGE_EXAMPLES.md` | Exemplos de uso da API |
+| `DATA_STRUCTURE_GUIDE.md` | Guia de escolha de estruturas |
+| `IMPLEMENTATION_PLAN.md` | Plano detalhado por fase |
+| `references/ESSENTIAL_DATA_STRUCTURES.md` | Checklist acadêmica |
+| `references/HEURISTICS_AND_METAHEURISTICS.md` | Pesquisa para Fase 3 |
 
 ---
 
-## 🔨 Build e Testes
-
-### Compilar
-
-```bash
-# Debug build (padrão)
-mkdir -p build && cd build
-cmake ..
-cmake --build .
-
-# Release build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
-
-# Com sanitizers (recomendado desenvolvimento)
-cmake -DENABLE_ASAN=ON -DENABLE_UBSAN=ON ..
-cmake --build .
-```
-
-### Executar Testes
-
-```bash
-# Todos os testes
-cd cmake-build-debug
-ctest --output-on-failure
-
-# Testes individuais
-./test_common
-./test_queue
-./test_stack
-./test_linked_list
-./test_array_list
-./test_hash_table
-./test_binary_tree
-```
-
-### Verificar Memory Leaks
-
-```bash
-valgrind --leak-check=full --show-leak-kinds=all ./test_common
-```
-
----
-
-## ✅ Critérios de Qualidade
-
-Para cada estrutura implementada:
-
-### Correção
-- [ ] Todos os testes unitários passam
-- [ ] Valgrind: zero memory leaks
-- [ ] UBSan: sem undefined behavior
-- [ ] ASan: sem buffer overflows
-
-### Performance
-- [ ] Complexidade empírica = teórica
-- [ ] Benchmarks dentro de ±10% esperado
-
-### Qualidade de Código
-- [ ] Compilação sem warnings (-Wall -Wextra -Wpedantic)
-- [ ] Documentação Doxygen completa
-- [ ] Pseudocódigo acadêmico seguido
-
-### Validação Acadêmica
-- [ ] Referências bibliográficas citadas
-- [ ] Análise de complexidade documentada
-- [ ] Algoritmos clássicos implementados corretamente
-
----
-
-## 📚 Documentação Complementar
-
-- **README.md** - Visão geral do projeto
-- **AGENTS.md** - Regras para coding agents
-- **docs/DATA_STRUCTURE_GUIDE.md** - Guia de escolha
-- **docs/IMPLEMENTATION_PLAN.md** - Plano detalhado por fase
-- **docs/references/ESSENTIAL_DATA_STRUCTURES.md** - Checklist acadêmica
-
----
-
-## 🎯 Métricas de Sucesso (Fase 1 Completa)
-
-| Métrica | Meta | Atual | Status |
-|---------|------|-------|--------|
-| Estruturas Fase 1 | 13 | 7 | ⏳ 54% |
-| Linhas de Código | ~7.000 | 4.560 | ⏳ 65% |
-| Testes | ~290 | 188 | ⏳ 65% |
-| Cobertura | 100% | 100% | ✅ |
-| Documentação | 100% | 100% | ✅ |
-| Referências | Todas | Todas | ✅ |
-
----
-
-**Última Atualização**: 2025-02-12  
-**Status Geral**: ⏳ Fase 1B em andamento (40% completa)  
-**Próximo Marco**: Completar BST, Heap, Graph (Fase 1B 100%)
+**Última Atualização**: 2026-02-12  
+**Próximo Marco**: Fase 3 - Heurísticas e Meta-Heurísticas

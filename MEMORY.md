@@ -234,7 +234,99 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ---
 
+### Fase 2 - Algoritmos Fundamentais ✅ COMPLETO
+
+**Data Início**: 2026-02-12  
+**Data Conclusão**: 2026-02-12  
+**Versão**: v0.3.0-alpha  
+**Status**: ✅ Produção (~45 algoritmos em 9 categorias)
+
+#### Wave 1 - Core Algorithms ✅
+
+**15. Sorting (10 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/sorting.c` + `include/algorithms/sorting.h`
+- **Algoritmos**:
+  - Didáticos: Bubble Sort, Selection Sort, Insertion Sort
+  - Eficientes: Shell Sort, Merge Sort, Quick Sort, Heap Sort
+  - Lineares: Counting Sort, Radix Sort, Bucket Sort
+- **Testes**: 20 casos
+- **Referências**: Cormen Ch. 2 (Insertion), Ch. 6 (Heapsort), Ch. 7 (Quicksort), Ch. 8 (Linear-time sorting)
+
+**16. Searching (6 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/searching.c` + `include/algorithms/searching.h`
+- **Algoritmos**: Linear Search, Binary Search, Interpolation Search, Ternary Search, Jump Search, Exponential Search
+- **Testes**: 19 casos
+- **Referências**: Cormen Ch. 2 (Binary Search p. 799), Knuth TAOCP Vol 3 Ch. 6
+
+**17. Graph Algorithms (5 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/graph_algorithms.c` + `include/algorithms/graph_algorithms.h`
+- **Algoritmos**: Dijkstra, Bellman-Ford, Floyd-Warshall, Kruskal (MST), Prim (MST)
+- **Testes**: 8 casos
+- **Referências**: Cormen Ch. 23 (MST), Ch. 24 (Dijkstra, Bellman-Ford), Ch. 25 (Floyd-Warshall)
+
+#### Wave 2 - Classical Algorithms ✅
+
+**18. String Matching (4 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/string_matching.c` + `include/algorithms/string_matching.h`
+- **Algoritmos**: Naive, KMP (Knuth-Morris-Pratt), Rabin-Karp, Boyer-Moore
+- **Testes**: 32 casos
+- **Referências**: Cormen Ch. 32 (String Matching), Knuth, Morris & Pratt (1977)
+
+**19. Dynamic Programming (8 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/dynamic_programming.c` + `include/algorithms/dynamic_programming.h`
+- **Algoritmos**: Fibonacci (memoização + tabulação), LCS, Knapsack 0/1, Edit Distance (Levenshtein), LIS, Rod Cutting, Matrix Chain Multiplication, Coin Change
+- **Testes**: 38 casos
+- **Referências**: Cormen Ch. 15 (DP), Bellman (1957), Wagner & Fischer (1974)
+
+**20. Greedy Algorithms (3 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/greedy.c` + `include/algorithms/greedy.h`
+- **Algoritmos**: Activity Selection, Huffman Coding, Fractional Knapsack
+- **Testes**: 16 casos
+- **Referências**: Cormen Ch. 16 (Greedy), Huffman (1952)
+
+**21. Numerical Algorithms (5 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/numerical.c` + `include/algorithms/numerical.h`
+- **Algoritmos**: GCD (Euclides), Extended GCD, Fast Exponentiation, Sieve of Eratosthenes, is_prime
+- **Testes**: 24 casos
+- **Referências**: Cormen Ch. 31 (Number-Theoretic Algorithms), Euclid (~300 BC)
+
+#### Wave 3 - Advanced Algorithms ✅
+
+**22. Divide and Conquer (5 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/divide_conquer.c` + `include/algorithms/divide_conquer.h`
+- **Algoritmos**: Strassen Matrix Multiplication, Closest Pair of Points, Karatsuba Multiplication, Maximum Subarray (Kadane), Quick Select
+- **Testes**: 23 casos
+- **Referências**: Cormen Ch. 4 (Divide & Conquer), Strassen (1969), Karatsuba (1962), Hoare (1961)
+
+**23. Backtracking (4 algoritmos)** ✅
+- **Arquivo**: `src/algorithms/backtracking.c` + `include/algorithms/backtracking.h`
+- **Algoritmos**: N-Queens, Subset Sum, Permutations, Graph Coloring
+- **Testes**: 19 casos
+- **Referências**: Cormen Ch. 34 (NP-Completeness concepts), Wirth (1976)
+
+**Métricas Fase 2**:
+- Algoritmos: ~45 em 9 categorias
+- Linhas de código: ~6.000+
+- Testes: 199 (100% passing, 0 failures)
+- Memory leaks: 0
+
+---
+
 ## 🚀 Releases
+
+### v0.3.0-alpha - Fase 2 Completa (Algoritmos Fundamentais)
+**Data**: 2026-02-12  
+**Tipo**: Alpha Release  
+
+**Conteúdo**:
+- ✅ ~45 algoritmos fundamentais em 9 categorias
+- ✅ 199 testes passando (100%)
+- ✅ Sorting (10), Searching (6), Graph (5), String Matching (4), DP (8), Greedy (3), Numerical (5), D&C (5), Backtracking (4)
+- ✅ Documentação acadêmica com referências Cormen/Knuth
+- ✅ Zero memory leaks
+- ✅ Biblioteca `libalgorithms.a` linkada contra `libdata_structures.a`
+
+**Breaking Changes**: N/A
 
 ### v0.2.0-alpha - Fase 1 Completa (1A + 1B + 1C)
 **Data**: 2026-02-12  
@@ -282,8 +374,9 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ```
 Estruturas Completas:     14/14 (100%)
-Linhas de Código:         ~8.577
-Testes Unitários:         ~308
+Algoritmos Completos:     ~45 em 9 categorias (100%)
+Linhas de Código:         ~14.500+
+Testes Unitários:         ~507 (308 data structures + 199 algorithms)
 Taxa de Sucesso:          100%
 Memory Leaks:             0
 Documentação:             100%
@@ -291,11 +384,14 @@ Documentação:             100%
 
 ### Por Fase
 
-| Fase | Estruturas | Linhas | Testes | Status |
-|------|------------|--------|--------|--------|
-| 1A   | 5/5        | 2.660  | 132    | ✅ COMPLETO |
-| 1B   | 5/5        | 4.410  | 117    | ✅ COMPLETO |
-| 1C   | 4/4        | 1.507  | 59     | ✅ COMPLETO |
+| Fase | Componentes | Linhas | Testes | Status |
+|------|-------------|--------|--------|--------|
+| 1A - Estruturas Lineares | 5/5 | 2.660 | 132 | ✅ COMPLETO |
+| 1B - Associativas/Árvores | 5/5 | 4.410 | 117 | ✅ COMPLETO |
+| 1C - Balanceadas/Especializadas | 4/4 | 1.507 | 59 | ✅ COMPLETO |
+| 2 W1 - Sorting/Searching/Graph | 21 algs | ~2.000 | 47 | ✅ COMPLETO |
+| 2 W2 - String/DP/Greedy/Numerical | 20 algs | ~2.500 | 110 | ✅ COMPLETO |
+| 2 W3 - D&C/Backtracking | 9 algs | ~1.500 | 42 | ✅ COMPLETO |
 
 ---
 
@@ -303,13 +399,25 @@ Documentação:             100%
 
 ### Livros
 - Cormen, T. H., et al. (2009). *Introduction to Algorithms* (3rd ed.)
+  - Ch. 2: Insertion Sort
+  - Ch. 4: Divide and Conquer (Strassen, Karatsuba)
   - Ch. 6: Heapsort
+  - Ch. 7: Quicksort
+  - Ch. 8: Sorting in Linear Time (Counting, Radix, Bucket)
   - Ch. 10: Elementary Data Structures
   - Ch. 11: Hash Tables
   - Ch. 12: Binary Search Trees
   - Ch. 13: Red-Black/Balanced Trees (conceitos para AVL)
+  - Ch. 15: Dynamic Programming (LCS, Rod Cutting, Matrix Chain, Knapsack)
+  - Ch. 16: Greedy Algorithms (Activity Selection, Huffman)
   - Ch. 21: Data Structures for Disjoint Sets
   - Ch. 22: Elementary Graph Algorithms
+  - Ch. 23: Minimum Spanning Trees (Kruskal, Prim)
+  - Ch. 24: Single-Source Shortest Paths (Dijkstra, Bellman-Ford)
+  - Ch. 25: All-Pairs Shortest Paths (Floyd-Warshall)
+  - Ch. 31: Number-Theoretic Algorithms (GCD, Modular Exp)
+  - Ch. 32: String Matching (Naive, Rabin-Karp, KMP)
+  - Ch. 34: NP-Completeness (concepts for backtracking)
 - Knuth, D. E. (1997-1998). *The Art of Computer Programming*
   - Vol 1: Fundamental Algorithms
   - Vol 3: Sorting and Searching
@@ -321,10 +429,26 @@ Documentação:             100%
 
 ### Papers
 - Adelson-Velsky, G. M. & Landis, E. M. (1962). "An algorithm for the organization of information"
+- Bellman, R. (1957). "Dynamic Programming"
+- Boyer, R. S. & Moore, J. S. (1977). "A fast string searching algorithm"
+- Dijkstra, E. W. (1959). "A note on two problems in connexion with graphs"
 - Fredkin, E. (1960). "Trie memory"
+- Hoare, C. A. R. (1961). "Algorithm 65: Find" (Quick Select)
+- Huffman, D. A. (1952). "A method for the construction of minimum-redundancy codes"
+- Karatsuba, A. & Ofman, Y. (1962). "Multiplication of multidigit numbers on automata"
+- Knuth, D. E., Morris, J. H. & Pratt, V. R. (1977). "Fast pattern matching in strings"
+- Kruskal, J. B. (1956). "On the shortest spanning subtree of a graph"
+- Levenshtein, V. I. (1966). "Binary codes capable of correcting deletions, insertions, and reversals"
+- Prim, R. C. (1957). "Shortest connection networks and some generalizations"
+- Rabin, M. O. & Karp, R. M. (1987). "Efficient randomized pattern-matching algorithms"
+- Shell, D. L. (1959). "A high-speed sorting procedure"
+- Strassen, V. (1969). "Gaussian elimination is not optimal"
 - Tarjan, R. E. (1975). "Efficiency of a Good But Not Linear Set Union Algorithm"
+- Wagner, R. A. & Fischer, M. J. (1974). "The string-to-string correction problem"
 
 ### Pseudocódigos Implementados
+
+**Fase 1 - Estruturas de Dados:**
 ✅ ENQUEUE/DEQUEUE (Cormen p. 235)  
 ✅ PUSH/POP (Cormen p. 233)  
 ✅ LIST-INSERT/DELETE (Cormen p. 238)  
@@ -340,6 +464,31 @@ Documentação:             100%
 ✅ TOPOLOGICAL-SORT (Cormen p. 613)  
 ✅ STRONGLY-CONNECTED-COMPONENTS / Kosaraju (Cormen p. 615)  
 ✅ MAKE-SET/UNION/FIND-SET (Cormen p. 571)
+
+**Fase 2 - Algoritmos Fundamentais:**
+✅ INSERTION-SORT (Cormen p. 18)  
+✅ MERGE-SORT / MERGE (Cormen p. 31-34)  
+✅ QUICKSORT / PARTITION (Cormen p. 171-174)  
+✅ HEAPSORT (Cormen p. 160)  
+✅ COUNTING-SORT (Cormen p. 195)  
+✅ RADIX-SORT (Cormen p. 198)  
+✅ BUCKET-SORT (Cormen p. 201)  
+✅ DIJKSTRA (Cormen p. 658)  
+✅ BELLMAN-FORD (Cormen p. 651)  
+✅ FLOYD-WARSHALL (Cormen p. 695)  
+✅ MST-KRUSKAL (Cormen p. 631)  
+✅ MST-PRIM (Cormen p. 634)  
+✅ KMP-MATCHER / COMPUTE-PREFIX (Cormen p. 1005)  
+✅ RABIN-KARP-MATCHER (Cormen p. 993)  
+✅ NAIVE-STRING-MATCHER (Cormen p. 988)  
+✅ LCS-LENGTH / PRINT-LCS (Cormen p. 394)  
+✅ MATRIX-CHAIN-ORDER (Cormen p. 375)  
+✅ CUT-ROD / BOTTOM-UP-CUT-ROD (Cormen p. 362-366)  
+✅ 0-1 KNAPSACK (Cormen p. 426)  
+✅ ACTIVITY-SELECTOR (Cormen p. 421)  
+✅ HUFFMAN (Cormen p. 431)  
+✅ RANDOMIZED-SELECT (Cormen p. 216)  
+✅ STRASSEN (Cormen p. 79)
 
 ---
 
@@ -363,14 +512,13 @@ Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 
 **Fase 1 (Estruturas de Dados)**: ✅ COMPLETO (14/14)
 
-**Fase 2 - Algoritmos Fundamentais** 🔄 PRÓXIMO:
-- [ ] Searching: Linear Search, Binary Search
-- [ ] Sorting (didático): Bubble Sort, Insertion Sort, Selection Sort
-- [ ] Sorting (eficiente): Merge Sort, Quick Sort, Heap Sort
-- [ ] Sorting (linear): Counting Sort, Radix Sort
-- [ ] Graph Algorithms: Dijkstra, Bellman-Ford, Floyd-Warshall
-- [ ] MST: Kruskal, Prim
-- [ ] String Matching: KMP, Rabin-Karp
+**Fase 2 (Algoritmos Fundamentais)**: ✅ COMPLETO (~45 algoritmos, 9 categorias)
+
+**Fase 3 - Heurísticas e Meta-Heurísticas** 🔄 PRÓXIMO:
+- [ ] Phase 3A: Classical (Simulated Annealing, Tabu Search, Genetic Algorithm, Hill Climbing)
+- [ ] Phase 3B: Advanced (PSO, ACO, GRASP, ILS)
+- [ ] Phase 3C: Specialized (DE, VNS, Memetic, LNS)
+- [ ] Benchmark problems: TSP, VRP, Knapsack variants, Scheduling
 
 ---
 
@@ -397,4 +545,4 @@ Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 ---
 
 *Última atualização: 2026-02-12*  
-*Próxima feature: Fase 2 - Algoritmos Fundamentais (Searching, Sorting, Graph Algorithms)*
+*Próxima feature: Fase 3 - Heurísticas e Meta-Heurísticas (SA, Tabu, GA, PSO, ACO)*
