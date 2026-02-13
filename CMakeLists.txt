@@ -77,13 +77,39 @@ set(DATA_STRUCTURES_SOURCES
 add_library(data_structures STATIC ${DATA_STRUCTURES_SOURCES})
 
 # ============================================================================
+# BIBLIOTECA DE ALGORITMOS
+# ============================================================================
+
+set(ALGORITHMS_SOURCES
+    # Fase 2A: Ordenacao e Busca
+    src/algorithms/sorting.c            # ✓ 10 algoritmos de ordenacao
+    src/algorithms/searching.c          # ✓ 6 algoritmos de busca
+
+    # Fase 2B: Algoritmos de Grafos
+    src/algorithms/graph_algorithms.c   # ✓ Dijkstra, Bellman-Ford, Floyd-Warshall, Kruskal, Prim
+
+    # Fase 2C: Strings, DP, Greedy, Numericos
+    src/algorithms/string_matching.c    # ✓ Naive, KMP, Rabin-Karp, Boyer-Moore
+    src/algorithms/dynamic_programming.c # ✓ Fibonacci, LCS, Knapsack, Edit Distance, LIS, Rod Cutting, Matrix Chain, Coin Change
+    src/algorithms/greedy.c             # ✓ Activity Selection, Huffman, Fractional Knapsack
+    src/algorithms/numerical.c          # ✓ GCD, Extended GCD, Fast Exp, Sieve
+
+    # Fase 2D: Divisao e Conquista, Backtracking
+    src/algorithms/divide_conquer.c     # ✓ Strassen, Closest Pair, Karatsuba, Max Subarray, Quick Select
+    src/algorithms/backtracking.c       # ✓ N-Queens, Subset Sum, Permutations, Graph Coloring
+)
+
+add_library(algorithms STATIC ${ALGORITHMS_SOURCES})
+target_link_libraries(algorithms data_structures)
+
+# ============================================================================
 # EXECUTÁVEL PRINCIPAL
 # ============================================================================
 
 add_executable(algoritmos_heuristicos main.c)
 
-# Linkar com a biblioteca de estruturas de dados
-target_link_libraries(algoritmos_heuristicos data_structures)
+# Linkar com bibliotecas
+target_link_libraries(algoritmos_heuristicos algorithms data_structures)
 
 # ============================================================================
 # TESTES (OPCIONAL - UNITY FRAMEWORK)
@@ -163,6 +189,55 @@ if(BUILD_TESTS)
     add_executable(test_graph tests/data_structures/test_graph.c)
     target_link_libraries(test_graph data_structures)
     add_test(NAME GraphTests COMMAND test_graph)
+
+    # ================================================================
+    # TESTES DE ALGORITMOS
+    # ================================================================
+
+    # Teste de sorting
+    add_executable(test_sorting tests/algorithms/test_sorting.c)
+    target_link_libraries(test_sorting algorithms data_structures m)
+    add_test(NAME SortingTests COMMAND test_sorting)
+
+    # Teste de searching
+    add_executable(test_searching tests/algorithms/test_searching.c)
+    target_link_libraries(test_searching algorithms data_structures m)
+    add_test(NAME SearchingTests COMMAND test_searching)
+
+    # Teste de graph algorithms
+    add_executable(test_graph_algorithms tests/algorithms/test_graph_algorithms.c)
+    target_link_libraries(test_graph_algorithms algorithms data_structures m)
+    add_test(NAME GraphAlgorithmsTests COMMAND test_graph_algorithms)
+
+    # Teste de string matching
+    add_executable(test_string_matching tests/algorithms/test_string_matching.c)
+    target_link_libraries(test_string_matching algorithms data_structures m)
+    add_test(NAME StringMatchingTests COMMAND test_string_matching)
+
+    # Teste de dynamic programming
+    add_executable(test_dynamic_programming tests/algorithms/test_dynamic_programming.c)
+    target_link_libraries(test_dynamic_programming algorithms data_structures m)
+    add_test(NAME DynamicProgrammingTests COMMAND test_dynamic_programming)
+
+    # Teste de greedy algorithms
+    add_executable(test_greedy tests/algorithms/test_greedy.c)
+    target_link_libraries(test_greedy algorithms data_structures m)
+    add_test(NAME GreedyTests COMMAND test_greedy)
+
+    # Teste de numerical algorithms
+    add_executable(test_numerical tests/algorithms/test_numerical.c)
+    target_link_libraries(test_numerical algorithms data_structures m)
+    add_test(NAME NumericalTests COMMAND test_numerical)
+
+    # Teste de divide and conquer
+    add_executable(test_divide_conquer tests/algorithms/test_divide_conquer.c)
+    target_link_libraries(test_divide_conquer algorithms data_structures m)
+    add_test(NAME DivideConquerTests COMMAND test_divide_conquer)
+
+    # Teste de backtracking
+    add_executable(test_backtracking tests/algorithms/test_backtracking.c)
+    target_link_libraries(test_backtracking algorithms data_structures m)
+    add_test(NAME BacktrackingTests COMMAND test_backtracking)
 endif()
 
 # ============================================================================

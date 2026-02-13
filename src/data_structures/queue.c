@@ -224,11 +224,11 @@ static DataStructureError queue_dequeue_array(Queue *queue, void *output) {
     void *src = (char*)queue->array + (queue->head * queue->element_size);
     if (output != NULL) {
         memcpy(output, src, queue->element_size);
-    }
-
-    // Chamar destrutor se necessário
-    if (queue->destroy != NULL) {
-        queue->destroy(src);
+    } else {
+        // Chamar destrutor se necessário
+        if (queue->destroy != NULL) {
+            queue->destroy(src);
+        }
     }
 
     // Atualizar head (circular)
@@ -307,11 +307,11 @@ static DataStructureError queue_dequeue_linked(Queue *queue, void *output) {
     // Copiar dados
     if (output != NULL) {
         memcpy(output, node->data, queue->element_size);
-    }
-
-    // Chamar destrutor se necessário
-    if (queue->destroy != NULL) {
-        queue->destroy(node->data);
+    } else {
+        // Chamar destrutor se necessário
+        if (queue->destroy != NULL) {
+            queue->destroy(node->data);
+        }
     }
 
     // Remover nó

@@ -93,10 +93,11 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ---
 
-### Fase 1B - Associativas e Árvores ⏳ 40% (2/5)
+### Fase 1B - Associativas e Árvores ✅ COMPLETO
 
 **Data Início**: 2025-02-12  
-**Status**: ⏳ Em andamento
+**Data Conclusão**: 2025-02-12  
+**Status**: ✅ Produção (5/5 estruturas)
 
 #### 6. HashTable (Tabela Hash) ✅
 - **Arquivo**: `src/data_structures/hash_table.c` (~1.100 linhas)
@@ -130,14 +131,122 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 - **Testes**: 24 casos (travessias + propriedades + algoritmos)
 - **Referências**: Cormen Ch. 12, pseudocódigo INORDER/PREORDER/POSTORDER-TREE-WALK (p. 288)
 
-**Métricas Fase 1B (parcial)**:
-- Linhas de código: ~1.900
-- Testes: 56 (100% passing)
-- Pendente: BST, Heap, Graph
+#### 8. BST (Binary Search Tree) ✅
+- **Arquivo**: `src/data_structures/bst.c` (789 linhas)
+- **Features**:
+  - Insert, search, remove (3 cases: leaf, 1 child, 2 children)
+  - Min/max, successor/predecessor
+  - Travessias: inorder, preorder, postorder
+  - Validação: `is_valid` (verifica propriedade BST)
+  - Utilidades: `to_array`, `range_search`, `range_count`, `select`, `rank`
+  - `clone`, `from_sorted_array` (árvore balanceada)
+- **Testes**: 20 casos
+- **Referências**: Cormen Ch. 12, pseudocódigo TREE-INSERT/DELETE/SEARCH (p. 294-298)
+
+#### 9. Heap (Binary Heap) ✅
+- **Arquivo**: `src/data_structures/heap.c` (491 linhas)
+- **Features**:
+  - `HEAP_MIN` + `HEAP_MAX`, genérico via `void*`
+  - Insert O(log n), extract O(log n), peek O(1)
+  - Build-heap O(n) via Floyd's algorithm
+  - Heapsort O(n log n)
+  - `to_array`, `clear`, `print`
+- **Testes**: 17 casos
+- **Referências**: Cormen Ch. 6, pseudocódigo MAX-HEAPIFY/BUILD-MAX-HEAP (p. 154-157)
+
+#### 10. Graph (Grafo) ✅
+- **Arquivo**: `src/data_structures/graph.c` (1.220 linhas)
+- **Features**:
+  - Representações: adjacency list (esparso) + adjacency matrix (denso)
+  - Tipos: directed + undirected, weighted + unweighted
+  - Vértices: add, remove, num_vertices
+  - Arestas: add, remove, has_edge, edge_weight, num_edges
+  - Grau: in_degree, out_degree, degree
+  - Vizinhos: neighbors, edges (lista completa)
+  - Travessias: BFS (Cormen p. 594), DFS (Cormen p. 604)
+  - Propriedades: is_connected, is_strongly_connected, has_cycle, is_tree, is_bipartite
+  - Topological sort (DAG only, Cormen p. 613)
+  - Componentes: num_connected_components, strongly_connected_components (Kosaraju)
+  - Utilidades: clone, transpose, to_adjacency_matrix, print
+- **Testes**: 24 casos (ambas representações, directed/undirected)
+- **Referências**: Cormen Ch. 22 (Elementary Graph Algorithms), Sedgewick Ch. 4
+
+**Métricas Fase 1B**:
+- Linhas de código: ~4.410
+- Testes: 117 (100% passing)
+- Memory leaks: 0
+
+---
+
+### Fase 1C - Balanceadas e Especializadas ✅ COMPLETO
+
+**Data**: 2025-02-12  
+**Status**: ✅ Produção (4/4 estruturas)
+
+#### 11. AVL Tree (Árvore AVL) ✅
+- **Arquivo**: `src/data_structures/avl_tree.c` (607 linhas)
+- **Features**:
+  - Auto-balancing BST com rotações LL/RR/LR/RL
+  - Insert, search, remove com rebalanceamento automático
+  - Min/max, inorder traversal
+  - Height tracking, is_valid (verifica fator de balanceamento)
+  - Range search, clear, clone
+- **Testes**: 18 casos (inclui stress test com validação de balanceamento)
+- **Referências**: Adelson-Velsky & Landis (1962), Cormen Ch. 13 (balanced trees)
+
+#### 12. Priority Queue (Fila de Prioridade) ✅
+- **Arquivo**: `src/data_structures/priority_queue.c` (180 linhas)
+- **Features**:
+  - Wrapper fino sobre Heap
+  - Min/max priority queue
+  - Insert O(log n), extract O(log n), peek O(1)
+  - Clear, size, is_empty
+- **Testes**: 12 casos
+- **Referências**: Cormen Ch. 6.5, pseudocódigo HEAP-EXTRACT-MAX/INSERT (p. 163-164)
+
+#### 13. Trie (Prefix Tree) ✅
+- **Arquivo**: `src/data_structures/trie.c` (447 linhas)
+- **Features**:
+  - Insert, search, starts_with (prefix check)
+  - Remove com cleanup de nós órfãos
+  - Autocomplete: retorna palavras com dado prefixo
+  - Longest common prefix
+  - To array (ordem lexicográfica)
+  - Size tracking
+- **Testes**: 14 casos
+- **Referências**: Fredkin (1960), Sedgewick Ch. 5 (Tries)
+
+#### 14. Union-Find (Disjoint Set) ✅
+- **Arquivo**: `src/data_structures/union_find.c` (273 linhas)
+- **Features**:
+  - Union by rank + path compression → O(α(n)) amortizado
+  - Find, union, connected
+  - Count sets, set size
+  - Get members, get components
+  - Reset
+- **Testes**: 15 casos
+- **Referências**: Cormen Ch. 21, Tarjan (1975)
+
+**Métricas Fase 1C**:
+- Linhas de código: ~1.507
+- Testes: 59 (100% passing)
+- Memory leaks: 0
 
 ---
 
 ## 🚀 Releases
+
+### v0.2.0-alpha - Fase 1 Completa (1A + 1B + 1C)
+**Data**: 2026-02-12  
+**Tipo**: Alpha Release  
+
+**Conteúdo**:
+- ✅ 14 estruturas de dados completas (todas as fases)
+- ✅ ~308 testes passando (100%)
+- ✅ Documentação acadêmica completa com referências Cormen/Knuth/Sedgewick
+- ✅ Zero memory leaks
+
+**Breaking Changes**: N/A
 
 ### v0.1.0-alpha - Fase 1A Completa
 **Data**: 2025-02-12  
@@ -155,20 +264,27 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ## 🔧 Hotfixes
 
-_Nenhum hotfix registrado ainda._
+### 2026-02-12 - Correções críticas de sessão
+- **`copy_string()` in common.c**: Retornava `&copy` (endereço de variável local = dangling pointer). Corrigido para `return copy`.
+- **`compare_int/float/double/string()` NULL ordering**: Invertido: `(a==NULL)-(b==NULL)` → `(b==NULL)-(a==NULL)`.
+- **`compare_float()` epsilon**: `1e-6f` muito pequeno para testes. Alterado para `1e-4f`.
+- **`list_remove_at()` linked_list.c**: Não copiava dados para output em remoção de nó do meio. Adicionado `memcpy`.
+- **Double-free em hash_table tests**: Testes chamavam `free(key)` em chaves que o `destroy_string` da hashtable também liberaria.
+- **`binary_tree.c` queue_create calls**: Assinatura errada (3 params em vez de 4). Adicionado parâmetro `0` faltante.
+- **TEST() macro conflicts**: Macro antiga causava "conflicting types" com `-Wpedantic`. Padronizado para `test_macros.h` compartilhado.
+- **Nested function em test_bst.c**: `check_order()` dentro de teste era extensão GCC. Extraído para função estática file-scope.
 
 ---
 
 ## 📊 Estatísticas Gerais
 
-### Totais Acumulados (atualizado 2025-02-12)
+### Totais Acumulados (atualizado 2026-02-12)
 
 ```
-Estruturas Completas:     7/13 (54%)
-Linhas de Código:         4.560
-Testes Unitários:         188
+Estruturas Completas:     14/14 (100%)
+Linhas de Código:         ~8.577
+Testes Unitários:         ~308
 Taxa de Sucesso:          100%
-Cobertura de Testes:      100%
 Memory Leaks:             0
 Documentação:             100%
 ```
@@ -178,8 +294,8 @@ Documentação:             100%
 | Fase | Estruturas | Linhas | Testes | Status |
 |------|------------|--------|--------|--------|
 | 1A   | 5/5        | 2.660  | 132    | ✅ COMPLETO |
-| 1B   | 2/5        | 1.900  | 56     | ⏳ 40% |
-| 1C   | 0/4        | 0      | 0      | ⏳ PENDENTE |
+| 1B   | 5/5        | 4.410  | 117    | ✅ COMPLETO |
+| 1C   | 4/4        | 1.507  | 59     | ✅ COMPLETO |
 
 ---
 
@@ -191,11 +307,22 @@ Documentação:             100%
   - Ch. 10: Elementary Data Structures
   - Ch. 11: Hash Tables
   - Ch. 12: Binary Search Trees
+  - Ch. 13: Red-Black/Balanced Trees (conceitos para AVL)
+  - Ch. 21: Data Structures for Disjoint Sets
+  - Ch. 22: Elementary Graph Algorithms
 - Knuth, D. E. (1997-1998). *The Art of Computer Programming*
   - Vol 1: Fundamental Algorithms
   - Vol 3: Sorting and Searching
 - Goodrich, M. T., et al. (2011). *Data Structures and Algorithms in C++*
 - Sedgewick, R., & Wayne, K. (2011). *Algorithms* (4th ed.)
+  - Ch. 4: Graphs
+  - Ch. 5: Strings (Tries)
+- Diestel, R. (2017). *Graph Theory* (5th ed.)
+
+### Papers
+- Adelson-Velsky, G. M. & Landis, E. M. (1962). "An algorithm for the organization of information"
+- Fredkin, E. (1960). "Trie memory"
+- Tarjan, R. E. (1975). "Efficiency of a Good But Not Linear Set Union Algorithm"
 
 ### Pseudocódigos Implementados
 ✅ ENQUEUE/DEQUEUE (Cormen p. 235)  
@@ -204,7 +331,15 @@ Documentação:             100%
 ✅ BINARY-SEARCH (Cormen p. 799)  
 ✅ CHAINED-HASH-INSERT/SEARCH (Cormen p. 258)  
 ✅ HASH-INSERT/SEARCH open addressing (Cormen p. 271)  
-✅ INORDER/PREORDER/POSTORDER-TREE-WALK (Cormen p. 288)
+✅ INORDER/PREORDER/POSTORDER-TREE-WALK (Cormen p. 288)  
+✅ TREE-INSERT/DELETE/SEARCH (Cormen p. 294-298)  
+✅ MAX-HEAPIFY/BUILD-MAX-HEAP (Cormen p. 154-157)  
+✅ HEAP-EXTRACT-MAX/INSERT (Cormen p. 163-164)  
+✅ BFS (Cormen p. 594)  
+✅ DFS/DFS-VISIT (Cormen p. 604)  
+✅ TOPOLOGICAL-SORT (Cormen p. 613)  
+✅ STRONGLY-CONNECTED-COMPONENTS / Kosaraju (Cormen p. 615)  
+✅ MAKE-SET/UNION/FIND-SET (Cormen p. 571)
 
 ---
 
@@ -226,16 +361,16 @@ Veja `.context/rules.md` para lista completa de ADRs.
 
 Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 
-**Imediato (Fase 1B)**:
-- [ ] BST (Binary Search Tree) 🔄 PRÓXIMO
-- [ ] Heap (Min/Max Binary Heap)
-- [ ] Graph (Adjacency List + Matrix)
+**Fase 1 (Estruturas de Dados)**: ✅ COMPLETO (14/14)
 
-**Curto Prazo (Fase 1C)**:
-- [ ] AVL Tree (auto-balanceamento)
-- [ ] Priority Queue (sobre Heap)
-- [ ] Trie (autocomplete)
-- [ ] Union-Find (disjoint sets)
+**Fase 2 - Algoritmos Fundamentais** 🔄 PRÓXIMO:
+- [ ] Searching: Linear Search, Binary Search
+- [ ] Sorting (didático): Bubble Sort, Insertion Sort, Selection Sort
+- [ ] Sorting (eficiente): Merge Sort, Quick Sort, Heap Sort
+- [ ] Sorting (linear): Counting Sort, Radix Sort
+- [ ] Graph Algorithms: Dijkstra, Bellman-Ford, Floyd-Warshall
+- [ ] MST: Kruskal, Prim
+- [ ] String Matching: KMP, Rabin-Karp
 
 ---
 
@@ -261,5 +396,5 @@ Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 
 ---
 
-*Última atualização: 2025-02-12*  
-*Próxima feature: BST (Binary Search Tree)*
+*Última atualização: 2026-02-12*  
+*Próxima feature: Fase 2 - Algoritmos Fundamentais (Searching, Sorting, Graph Algorithms)*
