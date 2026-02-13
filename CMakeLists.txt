@@ -103,13 +103,41 @@ add_library(algorithms STATIC ${ALGORITHMS_SOURCES})
 target_link_libraries(algorithms data_structures)
 
 # ============================================================================
+# BIBLIOTECA DE OTIMIZAÇÃO (HEURÍSTICAS E META-HEURÍSTICAS)
+# ============================================================================
+
+set(OPTIMIZATION_SOURCES
+    # Infraestrutura
+    src/optimization/common.c               # ✓ OptSolution, OptResult, RNG
+
+    # Benchmarks
+    src/optimization/benchmarks/tsp.c       # ✓ TSP instances, tour_cost, neighbors
+    src/optimization/benchmarks/continuous.c # ✓ Sphere, Rastrigin, Rosenbrock, Ackley, Schwefel
+
+    # Phase 3A - Heurísticas Clássicas
+    src/optimization/heuristics/hill_climbing.c          # ✓ Steepest, First Improvement, Random Restart, Stochastic
+    src/optimization/metaheuristics/simulated_annealing.c # ✓ 4 cooling schedules, reheating, auto-calibrate
+    src/optimization/metaheuristics/tabu_search.c         # ✓ Aspiration, diversification, intensification, reactive
+    src/optimization/metaheuristics/genetic_algorithm.c   # ✓ Tournament/Roulette/Rank, OX/PMX/BLX, adaptive
+
+    # Phase 3B - Heurísticas Avançadas
+    src/optimization/metaheuristics/ils.c                 # ✓ 4 acceptance criteria (better/always/SA-like/restart)
+    src/optimization/metaheuristics/grasp.c               # ✓ RCL construction, reactive GRASP, builtin constructors
+    src/optimization/metaheuristics/pso.c                 # ✓ 3 inertia types (constant/linear/constriction)
+    src/optimization/metaheuristics/aco.c                 # ✓ 3 variants (AS/Elitist/MMAS)
+)
+
+add_library(optimization STATIC ${OPTIMIZATION_SOURCES})
+target_link_libraries(optimization m)
+
+# ============================================================================
 # EXECUTÁVEL PRINCIPAL
 # ============================================================================
 
 add_executable(algoritmos_heuristicos main.c)
 
 # Linkar com bibliotecas
-target_link_libraries(algoritmos_heuristicos algorithms data_structures)
+target_link_libraries(algoritmos_heuristicos optimization algorithms data_structures m)
 
 # ============================================================================
 # TESTES (OPCIONAL - UNITY FRAMEWORK)
@@ -238,6 +266,57 @@ if(BUILD_TESTS)
     add_executable(test_backtracking tests/algorithms/test_backtracking.c)
     target_link_libraries(test_backtracking algorithms data_structures m)
     add_test(NAME BacktrackingTests COMMAND test_backtracking)
+
+    # ================================================================
+    # TESTES DE OTIMIZAÇÃO (PHASE 3)
+    # ================================================================
+
+    # Teste de benchmarks (TSP + Continuous)
+    add_executable(test_benchmarks tests/optimization/test_benchmarks.c)
+    target_link_libraries(test_benchmarks optimization m)
+    add_test(NAME BenchmarkTests COMMAND test_benchmarks)
+
+    # Teste de hill climbing
+    add_executable(test_hill_climbing tests/optimization/test_hill_climbing.c)
+    target_link_libraries(test_hill_climbing optimization m)
+    add_test(NAME HillClimbingTests COMMAND test_hill_climbing)
+
+    # Teste de simulated annealing
+    add_executable(test_simulated_annealing tests/optimization/test_simulated_annealing.c)
+    target_link_libraries(test_simulated_annealing optimization m)
+    add_test(NAME SimulatedAnnealingTests COMMAND test_simulated_annealing)
+
+    # Teste de tabu search
+    add_executable(test_tabu_search tests/optimization/test_tabu_search.c)
+    target_link_libraries(test_tabu_search optimization m)
+    add_test(NAME TabuSearchTests COMMAND test_tabu_search)
+
+    # Teste de genetic algorithm
+    add_executable(test_genetic_algorithm tests/optimization/test_genetic_algorithm.c)
+    target_link_libraries(test_genetic_algorithm optimization m)
+    add_test(NAME GeneticAlgorithmTests COMMAND test_genetic_algorithm)
+
+    # Phase 3B - Heurísticas Avançadas
+
+    # Teste de ILS
+    add_executable(test_ils tests/optimization/test_ils.c)
+    target_link_libraries(test_ils optimization m)
+    add_test(NAME ILSTests COMMAND test_ils)
+
+    # Teste de GRASP
+    add_executable(test_grasp tests/optimization/test_grasp.c)
+    target_link_libraries(test_grasp optimization m)
+    add_test(NAME GRASPTests COMMAND test_grasp)
+
+    # Teste de PSO
+    add_executable(test_pso tests/optimization/test_pso.c)
+    target_link_libraries(test_pso optimization m)
+    add_test(NAME PSOTests COMMAND test_pso)
+
+    # Teste de ACO
+    add_executable(test_aco tests/optimization/test_aco.c)
+    target_link_libraries(test_aco optimization m)
+    add_test(NAME ACOTests COMMAND test_aco)
 endif()
 
 # ============================================================================

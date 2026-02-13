@@ -11,7 +11,7 @@ description: "Roadmap completo do projeto: estruturas de dados (14), algoritmos 
 **Status Atual**:
 - Fase 1 (Estruturas de Dados): ✅ COMPLETA (14/14)
 - Fase 2 (Algoritmos Fundamentais): ✅ COMPLETA (~45 algoritmos, 9 categorias)
-- Fase 3 (Heurísticas e Meta-Heurísticas): ⏳ PLANEJADO
+- Fase 3 (Heurísticas e Meta-Heurísticas): 🔄 EM PROGRESSO (3A ✅, 3B ✅, 3C ⏳)
 
 ---
 
@@ -86,23 +86,29 @@ description: "Roadmap completo do projeto: estruturas de dados (14), algoritmos 
 
 ---
 
-## Fase 3 - Heurísticas e Meta-Heurísticas ⏳ PLANEJADO
+## Fase 3 - Heurísticas e Meta-Heurísticas 🔄 EM PROGRESSO
 
-### Phase 3A - Classical ⏳
-| Algoritmo | Tipo | Referência | Status |
-|-----------|------|------------|--------|
-| Hill Climbing | Local Search | Russell & Norvig (2010) | ⏳ |
-| Simulated Annealing | Single-Solution | Kirkpatrick et al. (1983) | ⏳ |
-| Tabu Search | Single-Solution | Glover (1986) | ⏳ |
-| Genetic Algorithm | Population-Based | Holland (1975) | ⏳ |
+### Phase 3A - Classical ✅ COMPLETA
+| Algoritmo | Tipo | Referência | Testes | Status |
+|-----------|------|------------|--------|--------|
+| Hill Climbing | Local Search | Russell & Norvig (2010) | 16 | ✅ |
+| Simulated Annealing | Single-Solution | Kirkpatrick et al. (1983) | 15 | ✅ |
+| Tabu Search | Single-Solution | Glover (1986) | 15 | ✅ |
+| Genetic Algorithm | Population-Based | Holland (1975) | 13 | ✅ |
 
-### Phase 3B - Advanced ⏳
-| Algoritmo | Tipo | Referência | Status |
-|-----------|------|------------|--------|
-| PSO | Population-Based | Kennedy & Eberhart (1995) | ⏳ |
-| ACO | Population-Based | Dorigo (1992) | ⏳ |
-| GRASP | Hybrid | Feo & Resende (1995) | ⏳ |
-| ILS | Single-Solution | Lourenço et al. (2003) | ⏳ |
+**Infraestrutura**: OptSolution/OptResult types, RNG utilities, TSP benchmarks (5/10/20 cities), Continuous benchmarks (Sphere, Rastrigin, Rosenbrock, Ackley, Schwefel) — 32 testes
+
+**Métricas**: ~4.500 linhas, 91 testes | **Conclusão**: 2026-02-13
+
+### Phase 3B - Advanced ✅ COMPLETA
+| Algoritmo | Tipo | Referência | Testes | Status |
+|-----------|------|------------|--------|--------|
+| ILS | Single-Solution | Lourenço et al. (2003) | 11 | ✅ |
+| GRASP | Hybrid | Feo & Resende (1995) | 10 | ✅ |
+| PSO | Population-Based | Kennedy & Eberhart (1995) | 10 | ✅ |
+| ACO | Population-Based | Dorigo (1992) | 10 | ✅ |
+
+**Métricas**: ~2.500 linhas, 41 testes | **Conclusão**: 2026-02-13
 
 ### Phase 3C - Specialized ⏳
 | Algoritmo | Tipo | Referência | Status |
@@ -138,12 +144,12 @@ description: "Roadmap completo do projeto: estruturas de dados (14), algoritmos 
 ║   - W2 String/DP/Greedy/Numerical: 20 algs ✅                ║
 ║   - W3 D&C/Backtracking: 9 algs ✅                           ║
 ║                                                               ║
-║ Fase 3 (Heurísticas):             ⏳ 0% (0/12)              ║
-║   - 3A Classical: SA, Tabu, GA, HC ⏳                        ║
-║   - 3B Advanced: PSO, ACO, GRASP, ILS ⏳                    ║
+║ Fase 3 (Heurísticas):             🔄 67% (8/12 + 2 bench)   ║
+║   - 3A Classical: HC, SA, TS, GA ✅ (91 testes)             ║
+║   - 3B Advanced: ILS, GRASP, PSO, ACO ✅ (41 testes)        ║
 ║   - 3C Specialized: DE, VNS, Memetic, LNS ⏳                ║
 ║                                                               ║
-║ TOTAL: ~67% (Fases 1+2 completas, Fase 3 pendente)          ║
+║ TOTAL: ~89% (Fases 1+2 completas, Fase 3A+3B completas)     ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
 
@@ -154,11 +160,12 @@ description: "Roadmap completo do projeto: estruturas de dados (14), algoritmos 
 ```
 Estruturas de Dados:      14 completas
 Algoritmos:               ~45 completos
-Linhas de Código:         ~14.500+
-Testes Unitários:         ~507 (100% passing)
+Heurísticas:              8 completas + 2 benchmarks (Phase 3A+3B)
+Linhas de Código:         ~21.500+
+Testes Unitários:         ~639 (100% passing)
 Memory Leaks:             0
-Categorias:               9 (sorting, searching, graph, string, DP, greedy, numerical, D&C, backtracking)
-Referências Acadêmicas:   30+ livros e papers
+Categorias:               10 (sorting, searching, graph, string, DP, greedy, numerical, D&C, backtracking, optimization)
+Referências Acadêmicas:   40+ livros e papers
 Pseudocódigos:            35+ implementados do CLRS
 ```
 
@@ -177,5 +184,5 @@ Pseudocódigos:            35+ implementados do CLRS
 
 ---
 
-**Última Atualização**: 2026-02-12  
-**Próximo Marco**: Fase 3 - Heurísticas e Meta-Heurísticas
+**Última Atualização**: 2026-02-13  
+**Próximo Marco**: Fase 3C - Specialized (DE, VNS, Memetic, LNS)

@@ -312,7 +312,114 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ---
 
+### Fase 3A - Heurísticas Clássicas ✅ COMPLETO
+
+**Data Início**: 2026-02-12  
+**Data Conclusão**: 2026-02-13  
+**Versão**: v0.4.0-alpha  
+**Status**: ✅ Produção (4 algoritmos + 2 benchmarks, 91 testes)
+
+#### Wave 0 - Infrastructure ✅
+- **Arquivos**: `src/optimization/common.c`, `include/optimization/common.h`
+- **Features**:
+  - OptSolution/OptResult types (create, clone, destroy)
+  - Function pointer typedefs: ObjectiveFn, NeighborFn, PerturbFn, GenerateFn
+  - RNG centralized: opt_set_seed, opt_random_uniform, opt_random_int, opt_random_gaussian (Box-Muller)
+  - OptDirection enum (minimize/maximize)
+
+#### Wave 0 - TSP Benchmark ✅
+- **Arquivos**: `src/optimization/benchmarks/tsp.c`, `include/optimization/benchmarks/tsp.h`
+- **Features**:
+  - 3 hardcoded instances (5/10/20 cities) + random generator
+  - ObjectiveFn: tsp_tour_cost (Hamiltonian cycle cost)
+  - NeighborFn: tsp_neighbor_swap, tsp_neighbor_2opt
+  - PerturbFn: tsp_perturb_double_bridge
+  - GenerateFn: tsp_generate_random (Fisher-Yates)
+  - Utilities: tsp_is_valid_tour, tsp_print_tour
+- **Referências**: Reinelt (1991), Croes (1958), Lin & Kernighan (1973)
+
+#### Wave 0 - Continuous Benchmark ✅
+- **Arquivos**: `src/optimization/benchmarks/continuous.c`, `include/optimization/benchmarks/continuous.h`
+- **Features**:
+  - 5 benchmark functions: Sphere, Rastrigin, Rosenbrock, Ackley, Schwefel
+  - ObjectiveFn: continuous_evaluate (dispatches by fn_type)
+  - NeighborFn: continuous_neighbor_gaussian (with clamping)
+  - GenerateFn: continuous_generate_random (uniform in domain)
+  - Utilities: continuous_fn_name, continuous_known_optimum_point
+- **Testes**: 32 casos (Wave 0 total)
+- **Referências**: Jamil & Yang (2013), Molga & Smutnicki (2005)
+
+#### 24. Hill Climbing (4 variantes) ✅
+- **Arquivos**: `src/optimization/heuristics/hill_climbing.c`, `include/optimization/heuristics/hill_climbing.h`
+- **Features**:
+  - HC_STEEPEST: avalia k vizinhos/iter, aceita melhor
+  - HC_FIRST_IMPROVEMENT: aceita primeiro vizinho melhor
+  - HC_RANDOM_RESTART: múltiplas execuções com pontos aleatórios
+  - HC_STOCHASTIC: aceita piores com probabilidade exp(-delta/T)
+  - Dispatcher genérico: hc_run() despacha por config.variant
+- **Testes**: 16 casos (TSP + Sphere)
+- **Referências**: Russell & Norvig (2010) Ch. 4.1, Talbi (2009) Ch. 3, Luke (2013) Ch. 2
+
+#### 25. Simulated Annealing ✅
+- **Arquivos**: `src/optimization/metaheuristics/simulated_annealing.c`, `include/optimization/metaheuristics/simulated_annealing.h`
+- **Features**:
+  - 4 cooling schedules: geometric, linear, logarithmic, adaptive
+  - Metropolis criterion: exp(-delta/T)
+  - Reheating: reaquece quando taxa de aceitação cai
+  - Auto-calibrate T0: determina T0 para ~80% de aceitação
+  - Markov chain length (inner loop por nível de temperatura)
+- **Testes**: 15 casos (TSP + Sphere + Rastrigin)
+- **Referências**: Kirkpatrick et al. (1983), Cerny (1985), Hajek (1988)
+
+#### 26. Tabu Search ✅
+- **Arquivos**: `src/optimization/metaheuristics/tabu_search.c`, `include/optimization/metaheuristics/tabu_search.h`
+- **Features**:
+  - FIFO circular hash-based tabu list (solution-based)
+  - Aspiration criterion (aceita tabu se melhora best)
+  - Long-term memory: frequency-based diversification
+  - Medium-term memory: frequency-based intensification
+  - Reactive tenure: ajusta dinamicamente baseado em ciclagem
+  - Builtin hash functions: ts_hash_bytes, ts_hash_int_array, ts_hash_double_array
+- **Testes**: 15 casos (TSP + Sphere)
+- **Referências**: Glover (1986), Glover & Laguna (1997), Battiti & Tecchiolli (1994)
+
+#### 27. Genetic Algorithm ✅
+- **Arquivos**: `src/optimization/metaheuristics/genetic_algorithm.c`, `include/optimization/metaheuristics/genetic_algorithm.h`
+- **Features**:
+  - Selection: Tournament, Roulette Wheel, Rank-Based
+  - Crossover builtin: OX (Order), PMX (Partially Mapped), BLX-alpha
+  - Mutation builtin: Swap, Inversion, Gaussian
+  - Elitism configurável
+  - Adaptive rates (ajusta pc/pm baseado em diversidade)
+  - Local search slot (memetic-like, via function pointer)
+- **Testes**: 13 casos (TSP + Sphere)
+- **Referências**: Holland (1975), Goldberg (1989), Eiben & Smith (2015), Davis (1985), Eshelman & Schaffer (1993)
+
+**Métricas Fase 3A**:
+- Algoritmos: 4 (com variantes: ~15 configurações)
+- Benchmarks: 2 módulos (TSP + 5 funções contínuas)
+- Linhas de código: ~4.500
+- Testes: 91 (100% passing, 0 failures)
+- Memory leaks: 0
+
+---
+
 ## 🚀 Releases
+
+### v0.4.0-alpha - Fase 3A Completa (Heurísticas Clássicas)
+**Data**: 2026-02-13  
+**Tipo**: Alpha Release  
+
+**Conteúdo**:
+- ✅ 4 heurísticas/meta-heurísticas clássicas com variantes
+- ✅ TSP + Continuous benchmarks
+- ✅ 91 testes passando (100%)
+- ✅ Documentação acadêmica com referências
+- ✅ Zero memory leaks
+- ✅ Biblioteca `liboptimization.a` independente
+- ✅ CMakeLists.txt atualizado com optimization library + 5 test targets
+
+**Breaking Changes**: N/A
 
 ### v0.3.0-alpha - Fase 2 Completa (Algoritmos Fundamentais)
 **Data**: 2026-02-12  
@@ -370,13 +477,14 @@ description: "Memória de longo prazo do projeto: features implementadas, releas
 
 ## 📊 Estatísticas Gerais
 
-### Totais Acumulados (atualizado 2026-02-12)
+### Totais Acumulados (atualizado 2026-02-13)
 
 ```
 Estruturas Completas:     14/14 (100%)
 Algoritmos Completos:     ~45 em 9 categorias (100%)
-Linhas de Código:         ~14.500+
-Testes Unitários:         ~507 (308 data structures + 199 algorithms)
+Heurísticas Completas:    4/12 + 2 benchmarks (Phase 3A)
+Linhas de Código:         ~19.000+
+Testes Unitários:         ~598 (308 DS + 199 Alg + 91 Opt)
 Taxa de Sucesso:          100%
 Memory Leaks:             0
 Documentação:             100%
@@ -392,6 +500,7 @@ Documentação:             100%
 | 2 W1 - Sorting/Searching/Graph | 21 algs | ~2.000 | 47 | ✅ COMPLETO |
 | 2 W2 - String/DP/Greedy/Numerical | 20 algs | ~2.500 | 110 | ✅ COMPLETO |
 | 2 W3 - D&C/Backtracking | 9 algs | ~1.500 | 42 | ✅ COMPLETO |
+| 3A - Heurísticas Clássicas | 4 algs + 2 bench | ~4.500 | 91 | ✅ COMPLETO |
 
 ---
 
@@ -426,6 +535,13 @@ Documentação:             100%
   - Ch. 4: Graphs
   - Ch. 5: Strings (Tries)
 - Diestel, R. (2017). *Graph Theory* (5th ed.)
+- Talbi, E.-G. (2009). *Metaheuristics: From Design to Implementation*
+- Luke, S. (2013). *Essentials of Metaheuristics*
+- Gendreau, M. & Potvin, J.-Y. (2019). *Handbook of Metaheuristics* (3rd ed.)
+- Eiben, A. E. & Smith, J. E. (2015). *Introduction to Evolutionary Computing*
+- Goldberg, D. E. (1989). *Genetic Algorithms in Search, Optimization, and Machine Learning*
+- Russell, S. & Norvig, P. (2010). *Artificial Intelligence: A Modern Approach* (3rd ed.)
+- Simon, D. (2013). *Evolutionary Optimization Algorithms*
 
 ### Papers
 - Adelson-Velsky, G. M. & Landis, E. M. (1962). "An algorithm for the organization of information"
@@ -445,6 +561,20 @@ Documentação:             100%
 - Strassen, V. (1969). "Gaussian elimination is not optimal"
 - Tarjan, R. E. (1975). "Efficiency of a Good But Not Linear Set Union Algorithm"
 - Wagner, R. A. & Fischer, M. J. (1974). "The string-to-string correction problem"
+- Kirkpatrick, S., Gelatt, C. D. & Vecchi, M. P. (1983). "Optimization by Simulated Annealing"
+- Cerny, V. (1985). "Thermodynamical Approach to the Traveling Salesman Problem"
+- Hajek, B. (1988). "Cooling Schedules for Optimal Annealing"
+- Glover, F. (1986). "Future Paths for Integer Programming and Links to AI"
+- Glover, F. & Laguna, M. (1997). *Tabu Search*
+- Battiti, R. & Tecchiolli, G. (1994). "The Reactive Tabu Search"
+- Holland, J. H. (1975). *Adaptation in Natural and Artificial Systems*
+- Davis, L. (1985). "Applying Adaptive Algorithms to Epistatic Domains" (OX crossover)
+- Eshelman, L. J. & Schaffer, J. D. (1993). "Real-Coded Genetic Algorithms and Interval-Schemata" (BLX-alpha)
+- Reinelt, G. (1991). "TSPLIB - A Traveling Salesman Problem Library"
+- Croes, G. A. (1958). "A Method for Solving Traveling-Salesman Problems" (2-opt)
+- Lin, S. & Kernighan, B. W. (1973). "An effective heuristic algorithm for the TSP"
+- Jamil, M. & Yang, X.-S. (2013). "A Literature Survey of Benchmark Functions for Global Optimization"
+- Molga, M. & Smutnicki, C. (2005). "Test functions for optimization needs"
 
 ### Pseudocódigos Implementados
 
@@ -514,11 +644,13 @@ Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 
 **Fase 2 (Algoritmos Fundamentais)**: ✅ COMPLETO (~45 algoritmos, 9 categorias)
 
-**Fase 3 - Heurísticas e Meta-Heurísticas** 🔄 PRÓXIMO:
-- [ ] Phase 3A: Classical (Simulated Annealing, Tabu Search, Genetic Algorithm, Hill Climbing)
+**Fase 3A (Heurísticas Clássicas)**: ✅ COMPLETO (HC, SA, TS, GA + TSP/Continuous benchmarks)
+
+**Fase 3 - Próximas etapas** 🔄:
+- [x] Phase 3A: Classical (Hill Climbing, Simulated Annealing, Tabu Search, Genetic Algorithm) ✅
 - [ ] Phase 3B: Advanced (PSO, ACO, GRASP, ILS)
 - [ ] Phase 3C: Specialized (DE, VNS, Memetic, LNS)
-- [ ] Benchmark problems: TSP, VRP, Knapsack variants, Scheduling
+- [ ] Benchmark problems: VRP, Knapsack variants, Scheduling
 
 ---
 
@@ -544,5 +676,5 @@ Veja `docs/PROJECT_ROADMAP.md` para roadmap completo.
 
 ---
 
-*Última atualização: 2026-02-12*  
-*Próxima feature: Fase 3 - Heurísticas e Meta-Heurísticas (SA, Tabu, GA, PSO, ACO)*
+*Última atualização: 2026-02-13*  
+*Próxima feature: Fase 3B - Advanced (PSO, ACO, GRASP, ILS)*

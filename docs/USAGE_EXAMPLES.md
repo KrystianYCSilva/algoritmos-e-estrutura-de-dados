@@ -655,9 +655,390 @@ int main(void) {
 
 ---
 
-## 3. Padrões de Uso Comuns
+## 3. Heurísticas e Meta-Heurísticas (Otimização)
 
-### 3.1 Trabalhando com Strings
+> Compilar exemplos de otimização:
+> ```bash
+> gcc -std=c11 -Wall -Wextra -I include -o example example.c \
+>     src/optimization/common.c src/optimization/benchmarks/tsp.c \
+>     src/optimization/benchmarks/continuous.c \
+>     src/optimization/heuristics/hill_climbing.c \
+>     src/optimization/metaheuristics/simulated_annealing.c \
+>     src/optimization/metaheuristics/tabu_search.c \
+>     src/optimization/metaheuristics/genetic_algorithm.c \
+>     src/optimization/metaheuristics/ils.c \
+>     src/optimization/metaheuristics/grasp.c \
+>     src/optimization/metaheuristics/pso.c \
+>     src/optimization/metaheuristics/aco.c -lm
+> ```
+
+### 3.1 Hill Climbing - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/heuristics/hill_climbing.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    HCConfig config = hc_default_config();
+    config.variant = HC_RANDOM_RESTART;
+    config.max_iterations = 500;
+    config.neighbors_per_iter = 20;
+    config.num_restarts = 10;
+    config.seed = 42;
+
+    OptResult result = hc_run(&config,
+                              sizeof(int),
+                              tsp->n_cities,
+                              tsp_tour_cost,
+                              tsp_neighbor_2opt,
+                              tsp_generate_random,
+                              tsp);
+
+    printf("Best tour cost: %.2f\n", result.best.cost);
+    printf("Iterations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    tsp_print_tour((int*)result.best.data, tsp->n_cities, result.best.cost);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.2 Simulated Annealing - Continuous Function
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/continuous.h"
+#include "optimization/metaheuristics/simulated_annealing.h"
+#include <stdio.h>
+
+int main(void) {
+    ContinuousInstance *rastrigin = continuous_create_rastrigin(10);
+
+    SAConfig config = sa_default_config();
+    config.initial_temp = 100.0;
+    config.final_temp = 0.001;
+    config.alpha = 0.95;
+    config.cooling = SA_COOLING_GEOMETRIC;
+    config.max_iterations = 10000;
+    config.markov_chain_length = 50;
+    config.seed = 42;
+
+    OptResult result = sa_run(&config,
+                              sizeof(double),
+                              rastrigin->dimensions,
+                              continuous_evaluate,
+                              continuous_neighbor_gaussian,
+                              continuous_generate_random,
+                              rastrigin);
+
+    printf("Rastrigin (D=10) best: %.6f (optimal=0.0)\n", result.best.cost);
+    printf("Time: %.1f ms\n", result.elapsed_time_ms);
+
+    opt_result_destroy(&result);
+    continuous_instance_destroy(rastrigin);
+    return 0;
+}
+```
+
+### 3.3 Tabu Search - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/tabu_search.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_20();
+
+    TSConfig config = ts_default_config();
+    config.max_iterations = 2000;
+    config.neighbors_per_iter = 30;
+    config.tabu_tenure = 15;
+    config.enable_aspiration = true;
+    config.enable_diversification = true;
+    config.diversification_weight = 0.5;
+    config.diversification_trigger = 100;
+    config.seed = 42;
+
+    OptResult result = ts_run(&config,
+                              sizeof(int),
+                              tsp->n_cities,
+                              tsp_tour_cost,
+                              tsp_neighbor_swap,
+                              tsp_generate_random,
+                              ts_hash_int_array,
+                              tsp);
+
+    printf("Best tour cost: %.2f\n", result.best.cost);
+    printf("Iterations: %zu\n", result.num_iterations);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.4 Genetic Algorithm - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/genetic_algorithm.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    GAConfig config = ga_default_config();
+    config.population_size = 50;
+    config.max_generations = 200;
+    config.crossover_rate = 0.8;
+    config.mutation_rate = 0.05;
+    config.elitism_count = 2;
+    config.selection = GA_SELECT_TOURNAMENT;
+    config.tournament_size = 3;
+    config.seed = 42;
+
+    OptResult result = ga_run(&config,
+                              sizeof(int),
+                              tsp->n_cities,
+                              tsp_tour_cost,
+                              tsp_generate_random,
+                              ga_crossover_ox,
+                              ga_mutation_swap,
+                              NULL,
+                              tsp);
+
+    printf("GA best tour cost: %.2f\n", result.best.cost);
+    printf("Generations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.5 Genetic Algorithm - Continuous (BLX Crossover)
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/continuous.h"
+#include "optimization/metaheuristics/genetic_algorithm.h"
+#include <stdio.h>
+
+int main(void) {
+    ContinuousInstance *sphere = continuous_create_sphere(5);
+
+    GAConfig config = ga_default_config();
+    config.population_size = 100;
+    config.max_generations = 500;
+    config.crossover_rate = 0.9;
+    config.mutation_rate = 0.1;
+    config.elitism_count = 2;
+    config.selection = GA_SELECT_RANK;
+    config.enable_adaptive_rates = true;
+    config.seed = 42;
+
+    OptResult result = ga_run(&config,
+                              sizeof(double),
+                              sphere->dimensions,
+                              continuous_evaluate,
+                              continuous_generate_random,
+                              ga_crossover_blx,
+                              ga_mutation_gaussian,
+                              NULL,
+                              sphere);
+
+    printf("Sphere (D=5) best: %.6f (optimal=0.0)\n", result.best.cost);
+
+    double *x = (double*)result.best.data;
+    printf("Solution: [");
+    for (size_t i = 0; i < sphere->dimensions; i++) {
+        printf("%.4f%s", x[i], i < sphere->dimensions - 1 ? ", " : "");
+    }
+    printf("]\n");
+
+    opt_result_destroy(&result);
+    continuous_instance_destroy(sphere);
+    return 0;
+}
+```
+
+### 3.6 ILS - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/ils.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    ILSConfig config = ils_default_config();
+    config.max_iterations = 100;
+    config.local_search_iterations = 200;
+    config.local_search_neighbors = 20;
+    config.perturbation_strength = 3;
+    config.acceptance = ILS_ACCEPT_SA_LIKE;
+    config.sa_initial_temp = 50.0;
+    config.sa_alpha = 0.95;
+    config.seed = 42;
+
+    OptResult result = ils_run(&config,
+                               sizeof(int),
+                               tsp->n_cities,
+                               tsp_tour_cost,
+                               tsp_neighbor_2opt,
+                               tsp_perturb_double_bridge,
+                               tsp_generate_random,
+                               tsp);
+
+    printf("ILS best tour cost: %.2f\n", result.best.cost);
+    printf("Iterations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.7 GRASP - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/grasp.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    GRASPConfig config = grasp_default_config();
+    config.max_iterations = 50;
+    config.alpha = 0.3;
+    config.local_search_iterations = 200;
+    config.local_search_neighbors = 20;
+    config.enable_reactive = true;
+    config.reactive_num_alphas = 5;
+    config.reactive_block_size = 10;
+    config.seed = 42;
+
+    OptResult result = grasp_run(&config,
+                                 sizeof(int),
+                                 tsp->n_cities,
+                                 tsp_tour_cost,
+                                 grasp_construct_tsp_nn,
+                                 tsp_neighbor_2opt,
+                                 tsp);
+
+    printf("GRASP best tour cost: %.2f\n", result.best.cost);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+### 3.8 PSO - Continuous Function
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/continuous.h"
+#include "optimization/metaheuristics/pso.h"
+#include <stdio.h>
+
+int main(void) {
+    ContinuousInstance *sphere = continuous_create_sphere(10);
+
+    PSOConfig config = pso_default_config();
+    config.num_particles = 30;
+    config.max_iterations = 500;
+    config.w = 0.9;
+    config.w_min = 0.4;
+    config.c1 = 2.0;
+    config.c2 = 2.0;
+    config.v_max_ratio = 0.1;
+    config.inertia_type = PSO_INERTIA_LINEAR_DECREASING;
+    config.lower_bound = -5.12;
+    config.upper_bound = 5.12;
+    config.seed = 42;
+
+    OptResult result = pso_run(&config,
+                               sphere->dimensions,
+                               continuous_evaluate,
+                               sphere);
+
+    printf("PSO Sphere (D=10) best: %.6f (optimal=0.0)\n", result.best.cost);
+
+    double *x = (double*)result.best.data;
+    printf("Solution: [");
+    for (size_t i = 0; i < sphere->dimensions; i++) {
+        printf("%.4f%s", x[i], i < sphere->dimensions - 1 ? ", " : "");
+    }
+    printf("]\n");
+
+    opt_result_destroy(&result);
+    continuous_instance_destroy(sphere);
+    return 0;
+}
+```
+
+### 3.9 ACO - TSP
+
+```c
+#include "optimization/common.h"
+#include "optimization/benchmarks/tsp.h"
+#include "optimization/metaheuristics/aco.h"
+#include <stdio.h>
+
+int main(void) {
+    TSPInstance *tsp = tsp_create_example_10();
+
+    ACOConfig config = aco_default_config();
+    config.n_ants = 20;
+    config.max_iterations = 200;
+    config.alpha = 1.0;
+    config.beta = 3.0;
+    config.rho = 0.1;
+    config.variant = ACO_ELITIST;
+    config.elitist_weight = 5.0;
+    config.seed = 42;
+
+    OptResult result = aco_run(&config,
+                               tsp->n_cities,
+                               tsp_tour_cost,
+                               aco_heuristic_tsp,
+                               tsp);
+
+    printf("ACO best tour cost: %.2f\n", result.best.cost);
+    printf("Iterations: %zu, Evaluations: %zu\n",
+           result.num_iterations, result.num_evaluations);
+
+    tsp_print_tour((int*)result.best.data, tsp->n_cities, result.best.cost);
+
+    opt_result_destroy(&result);
+    tsp_instance_destroy(tsp);
+    return 0;
+}
+```
+
+---
+
+## 4. Padrões de Uso Comuns
+
+### 4.1 Trabalhando com Strings
 
 ```c
 // Strings usam char* → precisa copy_string/destroy_string
@@ -671,7 +1052,7 @@ queue_dequeue(q, &out);  // out contém o ponteiro
 // destroy_string é chamado automaticamente no destroy da queue
 ```
 
-### 3.2 Trabalhando com Structs Customizadas
+### 4.2 Trabalhando com Structs Customizadas
 
 ```c
 typedef struct {
@@ -695,7 +1076,7 @@ bst_insert(tree, &s1);
 bst_insert(tree, &s2);
 ```
 
-### 3.3 Combinando Estruturas e Algoritmos
+### 4.3 Combinando Estruturas e Algoritmos
 
 ```c
 // Ordenar ArrayList com merge_sort
@@ -717,4 +1098,4 @@ shortest_path_free(sp);
 
 ---
 
-*Última atualização: 2026-02-12*
+*Última atualização: 2026-02-13*

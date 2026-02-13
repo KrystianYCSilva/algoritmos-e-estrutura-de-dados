@@ -226,33 +226,39 @@ description: "Catálogo completo de algoritmos do projeto com status de implemen
 
 ---
 
-## 10. Heurísticas e Meta-Heurísticas (Fase 3 - PLANEJADO)
+## 10. Heurísticas e Meta-Heurísticas (Fase 3)
 
-### Phase 3A - Classical ⏳
-| # | Algoritmo | Tipo | Status |
-|---|-----------|------|--------|
-| 1 | Hill Climbing | Local Search | ⏳ |
-| 2 | Simulated Annealing | Single-Solution | ⏳ |
-| 3 | Tabu Search | Single-Solution | ⏳ |
-| 4 | Genetic Algorithm | Population-Based | ⏳ |
+### Phase 3A - Classical ✅ COMPLETO
+| # | Algoritmo | Tipo | Variantes | Status |
+|---|-----------|------|-----------|--------|
+| 1 | Hill Climbing | Local Search | Steepest, First Improvement, Random Restart, Stochastic | ✅ |
+| 2 | Simulated Annealing | Single-Solution | 4 cooling schedules (geometric/linear/log/adaptive), reheating, auto-calibrate T0 | ✅ |
+| 3 | Tabu Search | Single-Solution | Aspiration, diversification, intensification, reactive tenure | ✅ |
+| 4 | Genetic Algorithm | Population-Based | Tournament/Roulette/Rank selection, OX/PMX/BLX crossover, Swap/Inversion/Gaussian mutation, adaptive rates | ✅ |
 
-### Phase 3B - Advanced ⏳
-| # | Algoritmo | Tipo | Status |
-|---|-----------|------|--------|
-| 5 | PSO (Particle Swarm) | Population-Based | ⏳ |
-| 6 | ACO (Ant Colony) | Population-Based | ⏳ |
-| 7 | GRASP | Hybrid | ⏳ |
-| 8 | ILS (Iterated Local Search) | Single-Solution | ⏳ |
+### Phase 3A - Benchmarks ✅ COMPLETO
+| # | Benchmark | Tipo | Detalhes | Status |
+|---|-----------|------|----------|--------|
+| 5 | TSP | Discreto | 3 instâncias hardcoded (5/10/20), aleatórias, swap/2-opt neighbors, double-bridge perturbation | ✅ |
+| 6 | Continuous Functions | Contínuo | Sphere, Rastrigin, Rosenbrock, Ackley, Schwefel, vizinhança gaussiana | ✅ |
+
+### Phase 3B - Advanced ✅ COMPLETO
+| # | Algoritmo | Tipo | Variantes | Status |
+|---|-----------|------|-----------|--------|
+| 7 | ILS (Iterated Local Search) | Single-Solution | 4 acceptance criteria (better/always/SA-like/restart) | ✅ |
+| 8 | GRASP | Hybrid | RCL construction, reactive GRASP, builtin TSP/continuous constructors | ✅ |
+| 9 | PSO (Particle Swarm) | Population-Based | 3 inertia types (constant/linear decreasing/constriction factor) | ✅ |
+| 10 | ACO (Ant Colony) | Population-Based | 3 variants (Ant System/Elitist/MAX-MIN), builtin TSP heuristic | ✅ |
 
 ### Phase 3C - Specialized ⏳
 | # | Algoritmo | Tipo | Status |
 |---|-----------|------|--------|
-| 9 | DE (Differential Evolution) | Population-Based | ⏳ |
-| 10 | VNS (Variable Neighborhood) | Single-Solution | ⏳ |
-| 11 | Memetic Algorithm | Hybrid | ⏳ |
-| 12 | LNS (Large Neighborhood Search) | Single-Solution | ⏳ |
+| 11 | DE (Differential Evolution) | Population-Based | ⏳ |
+| 12 | VNS (Variable Neighborhood) | Single-Solution | ⏳ |
+| 13 | Memetic Algorithm | Hybrid | ⏳ |
+| 14 | LNS (Large Neighborhood Search) | Single-Solution | ⏳ |
 
-**Referências**: Talbi (2009); Gendreau & Potvin (2019); Luke (2013)
+**Referências**: Talbi (2009); Gendreau & Potvin (2019); Luke (2013); Kirkpatrick et al. (1983); Glover (1986); Holland (1975)
 
 ---
 
@@ -271,16 +277,20 @@ description: "Catálogo completo de algoritmos do projeto com status de implemen
 | Numerical | 5 | 5 ✅ | 5 | 10 |
 | Divide & Conquer | 5 | 5 ✅ | 3 | 8 |
 | Backtracking | 4 | 4 ✅ | 4 | 8 |
-| Heurísticas (Phase 3) | 12 | 0 | - | 12 |
-| **TOTAL** | **62** | **50/50 ✅** | **38** | **100** |
+| Heurísticas (Phase 3) | 12 | 8 ✅ (3A+3B) | - | 12 |
+| Benchmarks (Phase 3) | 2 | 2 ✅ (3A) | - | 2 |
+| **TOTAL** | **64** | **60/64 ✅** | **38** | **102** |
 
 ### Status Geral
 ```
 Must-Have Algorithms:     50/50 (100%) ✅
+Phase 3A (Classical):     4/4 (100%) ✅ + 2 benchmarks
+Phase 3B (Advanced):      4/4 (100%) ✅ (ILS, GRASP, PSO, ACO)
+Phase 3C (Specialized):   0/4 (0%) ⏳
 Nice-to-Have:             0/38 (0%)
-Phase 3 (Heurísticas):   0/12 (0%) ⏳
+Total Testes:             ~639 (308 DS + 199 Alg + 91 Opt 3A + 41 Opt 3B)
 ```
 
 ---
 
-*Última atualização: 2026-02-12*
+*Última atualização: 2026-02-13*

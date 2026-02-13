@@ -9,7 +9,7 @@ description: "Plano detalhado de implementação: estruturas de dados (3 fases),
 Plano detalhado para implementação da biblioteca acadêmica em C11. Organizado em 3 macro-fases:
 1. **Fase 1**: Estruturas de Dados (14 estruturas) - ✅ COMPLETA
 2. **Fase 2**: Algoritmos Fundamentais (~45 algoritmos) - ✅ COMPLETA
-3. **Fase 3**: Heurísticas e Meta-Heurísticas (12+ algoritmos) - ⏳ PLANEJADO
+3. **Fase 3**: Heurísticas e Meta-Heurísticas (12+ algoritmos) - 🔄 EM PROGRESSO (3A ✅, 3B ✅)
 
 ---
 
@@ -69,23 +69,22 @@ Plano detalhado para implementação da biblioteca acadêmica em C11. Organizado
 
 ---
 
-## Fase 3: Heurísticas e Meta-Heurísticas ⏳ PLANEJADO
+## Fase 3: Heurísticas e Meta-Heurísticas 🔄 EM PROGRESSO
 
-### Phase 3A - Classical ⏳
+### Phase 3A - Classical ✅ COMPLETA (91 testes)
 
-- [ ] Hill Climbing (steepest ascent, first improvement)
-- [ ] Simulated Annealing (cooling schedules, Metropolis criterion)
-- [ ] Tabu Search (tabu list, aspiration criteria)
-- [ ] Genetic Algorithm (selection, crossover, mutation operators)
-- [ ] Benchmark: TSP, Knapsack
+- [x] Hill Climbing (steepest ascent, first improvement, random restart, stochastic) — 16 testes
+- [x] Simulated Annealing (geometric/linear/log/adaptive cooling, reheating, auto-calibrate T0) — 15 testes
+- [x] Tabu Search (tabu list, aspiration, diversification, intensification, reactive tenure) — 15 testes
+- [x] Genetic Algorithm (tournament/roulette/rank, OX/PMX/BLX, swap/inversion/gaussian, adaptive) — 13 testes
+- [x] Benchmarks: TSP (5/10/20 cities), Continuous (Sphere, Rastrigin, Rosenbrock, Ackley, Schwefel) — 32 testes
 
-### Phase 3B - Advanced ⏳
+### Phase 3B - Advanced ✅ COMPLETA (41 testes)
 
-- [ ] PSO (Particle Swarm Optimization)
-- [ ] ACO (Ant Colony Optimization)
-- [ ] GRASP (construction + local search)
-- [ ] ILS (Iterated Local Search)
-- [ ] Benchmark: VRP, Scheduling
+- [x] ILS (better/always/SA-like/restart acceptance, optional perturbation) — 11 testes
+- [x] GRASP (RCL construction, reactive GRASP, builtin TSP/continuous constructors) — 10 testes
+- [x] PSO (constant/linear decreasing/constriction inertia, velocity clamping) — 10 testes
+- [x] ACO (Ant System/Elitist/MAX-MIN, pheromone evaporation, builtin TSP heuristic) — 10 testes
 
 ### Phase 3C - Specialized ⏳
 
@@ -118,4 +117,4 @@ Para cada componente implementado:
 
 ---
 
-**Última atualização**: 2026-02-12
+**Última atualização**: 2026-02-13
